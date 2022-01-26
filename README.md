@@ -9,4 +9,8 @@ Born to make steam media unlock by WARP
 
 TODO：先完善架构，以便日后增加检测项能更快捷，更具扩展性和复用性
 
-WARP unlock stream media one-click script. Support IPv4, IPv6 or dual-stack CloudFlare WARP network interface and Socks5 proxy . WARP 解锁流媒体一键脚本
+运行脚本
+
+```
+wget -N https://cdn.jsdelivr.net/gh/fscarmen/warp/menu.sh && bash menu.sh [option] [lisence]
+```
