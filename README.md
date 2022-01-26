@@ -12,5 +12,5 @@ TODO：先完善架构，以便日后增加检测项能更快捷，更具扩展�
 运行脚本
 
 ```
-wget -N https://cdn.jsdelivr.net/gh/fscarmen/warp/menu.sh && bash menu.sh [option] [lisence]
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh)
 ```
