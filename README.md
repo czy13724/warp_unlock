@@ -5,7 +5,7 @@ Born to make steam media unlock by WARP
 
 # 目录
 
-- [更新信息和 TODO](README.md#更新信息更新信息和-TODO)
+- [更新信息和 TODO](README.md#更新信息和-todo)
 - [脚本特点](README.md#脚本特点)
 - [运行脚本](README.md#运行脚本)
 
