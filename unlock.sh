@@ -31,12 +31,12 @@ T[E8]="It is necessary to upgrade the latest package library before install curl
 T[C8]="先升级软件库才能继续安装 curl，时间较长，请耐心等待……"
 T[E9]="Failed to install curl. The script is aborted. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
 T[C9]="安装 curl 失败，脚本中止，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
-T[E10]="Media unlock daemon installed successfully."
-T[C10]="媒体解锁守护进程已安装成功"
+T[E10]="Media unlock daemon installed successfully. The running log of the scheduled task will be saved in /root/result.log"
+T[C10]="媒体解锁守护进程已安装成功。定时任务运行日志将保存在 /root/result.log"
 T[E11]="The media unlock daemon is completely uninstalled."
 T[C11]="媒体解锁守护进程已彻底卸载"
-T[E12]="\n 1. Install the stream media unlock daemon. Check it every 5 minutes.\n 0. Exit\n"
-T[C12]="\n 1. 安装流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功\n 0. 退出\n"
+T[E12]="\n 1. Install the stream media unlock daemon. Check it every 5 minutes.\n 2. Create a screen named [u] and run\n 3. Create a jobs with nohup to run in the background\n 0. Exit\n"
+T[C12]="\n 1. 安装流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功\n 2. 创建一个名为 [u] 的 Screen 在后台刷\n 3. 用 nohup 创建一个 jobs 在后台刷\n 0. 退出\n"
 T[E13]="The current region is \$REGION. Confirm press [y] . If you want another regions, please enter the two-digit region abbreviation. \(such as hk,sg. Default is \$REGION\):"
 T[C13]="当前地区是:\$REGION，需要解锁当前地区请按 y , 如需其他地址请输入两位地区简写 \(如 hk ,sg，默认:\$REGION\):"
 T[E14]="Wrong input."
@@ -51,6 +51,10 @@ T[E18]="New features"
 T[C18]="功能新增"
 T[E19]="\n Stream media unlock daemon is running.\n 1. Uninstall\n 0. Exit\n"
 T[C19]="\n 流媒体解锁守护正在运行中\n 1. 卸载\n 0. 退出\n"
+T[E20]="Media unlock daemon installed successfully. A session window u has been created, enter [screen -Udr u] and close [screen -SX u quit]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log"
+T[C20]="媒体解锁守护进程已安装成功，已创建一个会话窗口 u ，进入 [screen -Udr u]，关闭 [screen -SX u quit]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log"
+T[E21]="Media unlock daemon installed successfully. A jobs has been created, check [pgrep -laf warp_unlock] and close [kill -9 \$(pgrep -f warp_unlock)]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log"
+T[C21]="媒体解锁守护进程已安装成功，已创建一个jobs，查看 [pgrep -laf warp_unlock]，关闭 [kill -9 \$(pgrep -f warp_unlock)]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log"
 
 # 自定义字体彩色，read 函数，友道翻译函数
 red(){ echo -e "\033[31m\033[01m$1\033[0m"; }
@@ -101,8 +105,7 @@ type -P curl >/dev/null 2>&1 || (yellow " ${T[${L}7]} " && ${PACKAGE_INSTALL[b]}
 
 # 检查解锁方式是否已运行
 check_unlock_running(){
-	unlock_method=("$(grep -qE "\*/5.*warp_unlock.*" /etc/crontab && echo 1)")
-	for ((c=0; c<${#unlock_method[@]}; c++)); do [[ ${unlock_method[c]} = '1' ]] && break; done
+	grep -qE "warp_unlock" /etc/crontab && RUNNING=1
 }
 
 # 判断是否已经安装 WARP 网络接口或者 Socks5 代理,如已经安装组件尝试启动。再分情况作相应处理
@@ -144,7 +147,7 @@ for ((d=0; d<"$SUPPORT_NUM"; d++)); do
        ( [[ -z "$CHOOSE4" ]] || echo "$CHOOSE4" | grep -q "$((d+1))" ) && STREAM_UNLOCK[d]='1' || STREAM_UNLOCK[d]='0'
 done
 UNLOCK_SELECT=$(for ((e=0; e<"$((SUPPORT_NUM+1))"; e++)); do
-                [[ "${STREAM_UNLOCK[e]}" = 1 ]] && echo -e "[[ ! \${R[*]} =~ 0 ]] && check$e;"
+                [[ "${STREAM_UNLOCK[e]}" = 1 ]] && echo -e "[[ ! \${R[*]} =~ 'No' ]] && check$e;"
 		done)
 }
 
@@ -164,11 +167,14 @@ input_streammedia_unlock
 
 [[ -z "$EXPECT" ]] && input_region
 
-# 流媒体解锁守护进程，定时5分钟检查一次，结果输出到 ip.log 文件
-sed -i '/warp_unlock.sh/d' /etc/crontab && echo "*/5 * * * *  root bash /etc/wireguard/warp_unlock.sh $AREA" >> /etc/crontab
+# 根据解锁模式写入定时任务
+sh -c "$TASK"
 
 # 生成 warp_unlock.sh 文件，判断当前流媒体解锁状态，遇到不解锁时更换 WARP IP，直至刷成功。5分钟后还没有刷成功，将不会重复该进程而浪费系统资源
 cat <<EOF >/etc/wireguard/warp_unlock.sh
+EXPECT="$EXPECT"
+timedatectl set-timezone Asia/Shanghai
+
 if [[ \$(pgrep -laf ^[/d]*bash.*warp_unlock | awk -F, '{a[\$2]++}END{for (i in a) print i" "a[i]}') -le 2 ]]; then
 
 wgcf_restart(){ systemctl restart wg-quick@wgcf && sleep 5; }
@@ -181,25 +187,31 @@ check0(){
 RESULT[0]=""; REGION[0]=""; R[0]="";
 RESULT[0]=\$(curl --user-agent "\${UA_Browser}" $NF -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567"  2>&1)
 if [[ \${RESULT[0]} = 200 ]]; then
-REGION[0]=\$(tr '[:lower:]' '[:upper:]' <<< \$(curl --user-agent "${UA_Browser}" $NF -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g'))
+REGION[0]=\$(curl --user-agent "${UA_Browser}" $NF -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g' | tr '[:lower:]' '[:upper:]')
 REGION[0]=\${REGION[0]:-'US'}
 fi
-echo "\${REGION[0]}" | grep -qi "$EXPECT" || R[0]='0'
+echo "\${REGION[0]}" | grep -qi "\$EXPECT" && R[0]='Yes' || R[0]='No'
+echo -e "\$(date +'%F %T'). Netflix: \${R[0]}" | tee -a /root/result.log
 }
 
+${MODE2[0]}
+echo -e "\$(date +'%F %T'). IP:\$(curl $NF https://ip.gs)" | tee -a /root/result.log
 UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
 $UNLOCK_SELECT
-until [[ ! \${R[*]}  =~ 0  ]]; do
+until [[ ! \${R[*]}  =~ 'No' ]]; do
 unset R
 $RESTART
 $UNLOCK_SELECT
 done
-fi
+${MODE2[1]}
+${MODE2[2]}
 
+else echo -e "\$(date +'%F %T'). Brushing IP is working now." | tee -a /root/result.log
+fi
 EOF
 
 # 输出执行结果
-green " ${T[${L}10]} "
+green " $RESULT_OUTPUT "
 }
 
 uninstall(){
@@ -207,7 +219,8 @@ type -P wg-quick >/dev/null 2>&1 && wg-quick down wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos delete >/dev/null 2>&1 && sleep 1
 sed -i '/warp_unlock.sh/d' /etc/crontab
 kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
-rm -f /etc/wireguard/warp_unlock.sh
+kill -9 $(jobs -l | grep warp_unlock | awk '{print $2}')
+rm -f /etc/wireguard/warp_unlock.sh /root/result.log
 type -P wg-quick >/dev/null 2>&1 && wg-quick up wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos register >/dev/null 2>&1
 
@@ -218,15 +231,41 @@ green " ${T[${L}11]} "
 # 主程序运行
 choose_laguage
 check_unlock_running
-if echo ${unlock_method[*]} | grep -q '1'; then
+action0(){ exit 0; }
+if [[ "$RUNNING" = 1 ]]; then
 MENU_SHOW="${T[${L}19]}"
-ACTION1(){ uninstall; }
+action1(){ uninstall; }
+action2(){ exit 0; }
 else
 MENU_SHOW="${T[${L}12]}"
-ACTION1(){ export_unlock_file; }
 check_system_info
 check_dependencies
 check_warp
+action1(){
+TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh 2>&1 | tee -a /root/result.log\" >> /etc/crontab"
+RESULT_OUTPUT="${T[${L}10]}"
+export_unlock_file
+	}
+action2(){ 
+MODE2[0]="while true; do"
+MODE2[1]="sleep 1h"
+MODE2[2]="done"
+TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh 2>&1 | tee -a /root/result.log\" >> /etc/crontab"
+RESULT_OUTPUT="${T[${L}20]}"
+export_unlock_file
+screen -USdm u bash /etc/wireguard/warp_unlock.sh $AREA 2>&1 | tee -a /root/result.log
+	}
+action3(){ 
+MODE2[0]="while true; do"
+MODE2[1]="sleep 1h"
+MODE2[2]="done"
+TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root nohup bash /etc/wireguard/warp_unlock.sh &\" >> /etc/crontab"
+RESULT_OUTPUT="${T[${L}21]}"
+export_unlock_file
+nohup bash /etc/wireguard/warp_unlock.sh >> result.log 2>&1 &
+	}
+
+action0(){ exit 0; }
 fi
 
 # 菜单显示
@@ -238,8 +277,7 @@ green " ${T[${L}17]}：$VERSION  ${T[${L}18]}：${T[${L}1]}\n "
 red "======================================================================================================================\n"
 yellow " $MENU_SHOW " && reading " ${T[${L}3]} " CHOOSE1
 case "$CHOOSE1" in
-1 ) ACTION1;;
-0 ) exit 0;;
+[0-3] ) action$CHOOSE1;;
 * ) red " ${T[${L}14]} "; sleep 1; menu;;
 esac
 }
