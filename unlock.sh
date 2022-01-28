@@ -3,7 +3,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/sbin:/b
 export LANG=en_US.UTF-8
 
 # 当前脚本版本号和新增功能
-VERSION=1.0
+VERSION=1.1
 
 # 期望解锁地区传参
 [[ $1 =~ ^[A-Za-z]{2}$ ]] && EXPECT="$1"
@@ -13,8 +13,8 @@ declare -A T
 
 T[E0]="\n Language:\n  1.English (default) \n  2.简体中文\n"
 T[C0]="${T[E0]}"
-T[E1]="Born to make stream media unlock by WARP. 1. Media unlock daemon. Check it every 5 minutes. If unlocked, the scheduled task exits immediately. If it is not unlocked, it will be swiped successfully in the background. Advantages: Minimized use of system resources. Disadvantage: Can't see the results as intuitively as screen"
-T[C1]="为 WARP 解锁流媒体而生。 1. 流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 缺点: 不能像 screen 那么直观看到结果"
+T[E1]="1.Add two ways the unlock; 2.Output the running log file to /root/result.log"
+T[C1]="1.增加两种解锁方式; 2.增加运行日志输出 /root/result.log"
 T[E2]="The script must be run as root, you can enter sudo -i and then download and run again. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
 T[C2]="必须以root方式运行脚本，可以输入 sudo -i 后重新下载运行，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
 T[E3]="Choose:"
