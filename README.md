@@ -37,10 +37,9 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 ~缺点: 不能像 screen 那么直观看到结果~
 
 ## 脚本特点
-作者很懒，还未写
+作者很懒，还未写    
 
-![image](https://user-images.githubusercontent.com/62703343/151404848-c7f7d7a2-224f-49cd-b6b4-e22203017abe.png)
-
+<img src="https://user-images.githubusercontent.com/62703343/151590856-7957f0fa-c6dd-4b83-9425-f6a2eb1ca53e.png" width="80%" />
 
 ## 运行脚本
 
