@@ -12,13 +12,29 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO:~1. Improve the architecture first, so that adding detection items in the future can be faster, more scalable and reusable;~ 2. Add other unlocking methods; 3. In addition to the original Netflix, add other unlocking support such as Disney+; 4. Check Unlock socks5 support for mainstream scripts
+TODO:~1. Improve the architecture first, so that adding detection items in the future can be faster, more scalable and reusable;~ 2. Add other unlocking methods; 3. In addition to the original Netflix, add other unlocking support such as Disney+; 4. Check Unlock socks5 support for mainstream scripts ~5.Running log file~
    
-待更新: ~1.先完善架构，以便日后增加检测项能更快捷，更具扩展性和复用性;~ 2.增加其他解锁方式; 3.除原有的 Netflix 外，增加 Disney+ 等其他解锁支持; 4.查解锁主流脚本的 socks5 支持(如作者支持就不做改了，直接引用)
+待更新: ~1.先完善架构，以便日后增加检测项能更快捷，更具扩展性和复用性;~ 2.增加其他解锁方式; 3.除原有的 Netflix 外，增加 Disney+ 等其他解锁支持; 4.查解锁主流脚本的 socks5 支持(如作者支持就不做改了，直接引用) ~5.运行日志~
 
-beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the scheduled task exits immediately. If it is not unlocked, it will be swiped successfully in the background. Advantages: Minimized use of system resources. Disadvantage: Can't see the results as intuitively as screen
+2022.1.28 1.0 1. Add running logs file 1. 加入运行日志
+```
+2022-01-28 09:45:03. Netflix: No
+2022-01-28 09:45:10. Netflix: No
+2022-01-28 09:45:17. Netflix: No
+2022-01-28 09:45:24. Netflix: No
+2022-01-28 09:45:31. Netflix: No
+2022-01-28 09:45:38. Netflix: No
+2022-01-28 09:45:45. Netflix: No
+2022-01-28 09:45:51. Netflix: No
+2022-01-28 09:45:58. Netflix: No
+2022-01-28 09:46:05. Netflix: No
+2022-01-28 09:46:12. Netflix: No
+2022-01-28 09:46:20. Netflix: Yes
+```
 
-流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 缺点: 不能像 screen 那么直观看到结果
+beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the scheduled task exits immediately. If it is not unlocked, it will be swiped successfully in the background. Advantages: Minimized use of system resources. ~Disadvantage: Can't see the results as intuitively as screen~
+
+流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 ~缺点: 不能像 screen 那么直观看到结果~
 
 ## 脚本特点
 作者很懒，还未写
