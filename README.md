@@ -17,7 +17,7 @@ TODO:~1. Improve the architecture first, so that adding detection items in the f
    
 待更新: ~1.先完善架构，以便日后增加检测项能更快捷，更具扩展性和复用性; 2.增加其他解锁方式; 3.除原有的 Netflix 外，增加 Disney+ 等其他解锁支持; 4.运行日志~ 5.查解锁主流脚本的 socks5 支持(如作者支持就不做改了，直接引用) 6. getopts 传参
 
-2022.1.29 1.02
+2022.1.29 1.02 1. Support Disney+ 1. 支持 Disney+
 
 2022.1.28 1.01 1. Add two ways to unlock; 2. Add running logs file 1. 增加两种解锁方式; 2. 加入运行日志
 ```
