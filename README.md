@@ -32,11 +32,9 @@ TODO:~1. Improve the architecture first, so that adding detection items in the f
 
 beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the scheduled task exits immediately. If it is not unlocked, it will be swiped successfully in the background. Advantages: Minimized use of system resources. ~Disadvantage: Can't see the results as intuitively as screen~
 
-流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 ~缺点: 不能像 screen 那么直观看到结果~
-
 ## 脚本特点
-* 支持多种主流串流影视检测
-* 多种方式解锁
+* 支持多种主流串流影视检测，可以单选或多选
+* 多种方式解锁: 1.每 5 分钟检测一次状态; 2. screen 后台运行; 3. nohup & 后台运行 (已经是天花板，有本事来 [issue](https://github.com/fscarmen/warp_unlock/issues) 挑战)
 * 支持 WARP Socks5 Proxy 检测和更换 IP 
 * 日志输出
 
