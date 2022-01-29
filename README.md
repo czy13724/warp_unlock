@@ -8,6 +8,7 @@ Born to make stream media unlock by WARP
 - [更新信息和 TODO](README.md#更新信息和-todo)
 - [脚本特点](README.md#脚本特点)
 - [运行脚本](README.md#运行脚本)
+- [鸣谢](README.md#鸣谢下列作者的文章和项目)
 
 * * *
 
@@ -34,7 +35,10 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功。 优点: 占用系统资源最小化。 ~缺点: 不能像 screen 那么直观看到结果~
 
 ## 脚本特点
-作者很懒，还未写    
+* 支持多种主流串流影视检测
+* 多种方式解锁
+* 支持 WARP Socks5 Proxy 检测和更换 IP 
+* 日志输出
 
 <img src="https://user-images.githubusercontent.com/62703343/151590856-7957f0fa-c6dd-4b83-9425-f6a2eb1ca53e.png" width="80%" />
 
@@ -43,3 +47,17 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 ```
 bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh)
 ```
+
+## 鸣谢下列作者的文章和项目
+
+互联网永远不会忘记，但人们会。
+
+技术文章和相关项目（排名不分先后）:
+* luoxue-bot 的成熟作品: https://github.com/luoxue-bot/warp_auto_change_ip
+* lmc999 的成熟作品: https://github.com/lmc999/RegionRestrictionCheck
+
+服务提供（排名不分先后）:
+* CloudFlare Warp(+): https://1.1.1.1/
+* WGCF 项目原作者: https://github.com/ViRb3/wgcf/
+* 获取公网 IP 及归属地查询: https://ip.gs/
+* 统计PV网:https://hits.seeyoufarm.com/
