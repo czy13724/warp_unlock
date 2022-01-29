@@ -38,7 +38,7 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 * 支持 WARP Socks5 Proxy 检测和更换 IP 
 * 日志输出
 
-<img src="https://user-images.githubusercontent.com/62703343/151590856-7957f0fa-c6dd-4b83-9425-f6a2eb1ca53e.png" width="80%" />
+<img src="https://user-images.githubusercontent.com/62703343/151651669-92d5263e-bfa2-4c2c-9928-683b678d9956.png" width="70%" />
 
 ## 运行脚本
 
