@@ -3,7 +3,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/sbin:/b
 export LANG=en_US.UTF-8
 
 # 当前脚本版本号和新增功能
-VERSION=1.1
+VERSION=1.02
 
 # 期望解锁地区传参
 [[ $1 =~ ^[A-Za-z]{2}$ ]] && EXPECT="$1"
@@ -25,46 +25,57 @@ T[E5]="The script supports Debian, Ubuntu, CentOS or Alpine systems only. Feedba
 T[C5]="本脚本只支持 Debian、Ubuntu、CentOS 或 Alpine 系统,问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
 T[E6]="Please choose to brush WARP IP:\n 1. WARP Socks5 Proxy (Default)\n 2. WARP IPv6 Interface\n"
 T[C6]="\n 请选择刷 WARP IP 方式:\n 1. WARP Socks5 代理 (默认)\n 2. WARP IPv6 网络接口\n"
-T[E7]="Installing curl..."
-T[C7]="安装curl中……"
-T[E8]="It is necessary to upgrade the latest package library before install curl.It will take a little time,please be patiently..."
-T[C8]="先升级软件库才能继续安装 curl，时间较长，请耐心等待……"
-T[E9]="Failed to install curl. The script is aborted. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
-T[C9]="安装 curl 失败，脚本中止，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
-T[E10]="Media unlock daemon installed successfully. The running log of the scheduled task will be saved in /root/result.log"
-T[C10]="媒体解锁守护进程已安装成功。定时任务运行日志将保存在 /root/result.log"
-T[E11]="The media unlock daemon is completely uninstalled."
-T[C11]="媒体解锁守护进程已彻底卸载"
+T[E7]="Installing \$c..."
+T[C7]="安装 \$c 中……"
+T[E8]="It is necessary to upgrade the latest package library before install \$c.It will take a little time,please be patiently..."
+T[C8]="先升级软件库才能继续安装 \$c，时间较长，请耐心等待……"
+T[E9]="Failed to install \$c. The script is aborted. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
+T[C9]="安装 \$c 失败，脚本中止，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
+T[E10]="\n Media unlock daemon installed successfully. The running log of the scheduled task will be saved in /root/result.log\n"
+T[C10]="\n 媒体解锁守护进程已安装成功。定时任务运行日志将保存在 /root/result.log\n"
+T[E11]="\n The media unlock daemon is completely uninstalled.\n"
+T[C11]="\n 媒体解锁守护进程已彻底卸载\n"
 T[E12]="\n 1. Install the stream media unlock daemon. Check it every 5 minutes.\n 2. Create a screen named [u] and run\n 3. Create a jobs with nohup to run in the background\n 0. Exit\n"
 T[C12]="\n 1. 安装流媒体解锁守护进程,定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功\n 2. 创建一个名为 [u] 的 Screen 在后台刷\n 3. 用 nohup 创建一个 jobs 在后台刷\n 0. 退出\n"
-T[E13]="The current region is \$REGION. Confirm press [y] . If you want another regions, please enter the two-digit region abbreviation. \(such as hk,sg. Default is \$REGION\):"
-T[C13]="当前地区是:\$REGION，需要解锁当前地区请按 y , 如需其他地址请输入两位地区简写 \(如 hk ,sg，默认:\$REGION\):"
+T[E13]="\\\n The current region is \$REGION. Confirm press [y] . If you want another regions, please enter the two-digit region abbreviation. \(such as hk,sg. Default is \$REGION\):"
+T[C13]="\\\n 当前地区是:\$REGION，需要解锁当前地区请按 y , 如需其他地址请输入两位地区简写 \(如 hk ,sg，默认:\$REGION\):"
 T[E14]="Wrong input."
 T[C14]="输入错误"
-T[E15]="\n Select the stream media you wanna unlock (Multiple selections are possible, such as 123. The default is select all)\n 1. Netflix"
-T[C15]="\n 选择你期望解锁的流媒体 (可多选，如 123，默认为全选)\n 1. Netflix"
-T[E16]="This project is designed for brushing WARP IP in order to unlock various streaming media, detailed:[https://github.com/fscarmen/warp_unlock]\n Features:\n	* did not write\n"
-T[C16]="本项目专为刷 WARP IP 以便解锁各流媒体。详细说明：[https://github.com/fscarmen/warp_unlock]\n脚本特点:\n	* 未写\n"
+T[E15]="\n Select the stream media you wanna unlock (Multiple selections are possible, such as 123. The default is select all)\n 1. Netflix\n 2. Disney+\n"
+T[C15]="\n 选择你期望解锁的流媒体 (可多选，如 123，默认为全选)\n 1. Netflix\n 2. Disney+\n"
+T[E16]="The script Born to make stream media unlock by WARP. Detail:[https://github.com/fscarmen/warp]\n Features:\n	* Support a variety of main stream streaming media detection.\n	* Multiple ways to unlock.\n	* Support WARP Socks5 Proxy to detect and replace IP.\n	* log output\n"
+T[C16]="本项目专为 WARP 解锁流媒体而生。详细说明：[https://github.com/fscarmen/warp]\n 脚本特点:\n	* 支持多种主流串流影视检测\n	* 多种方式解锁\n	* 支持 WARP Socks5 Proxy 检测和更换 IP\n	* 日志输出\n"
 T[E17]="Version"
 T[C17]="脚本版本"
 T[E18]="New features"
 T[C18]="功能新增"
 T[E19]="\n Stream media unlock daemon is running.\n 1. Uninstall\n 0. Exit\n"
 T[C19]="\n 流媒体解锁守护正在运行中\n 1. 卸载\n 0. 退出\n"
-T[E20]="Media unlock daemon installed successfully. A session window u has been created, enter [screen -Udr u] and close [screen -SX u quit]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log"
-T[C20]="媒体解锁守护进程已安装成功，已创建一个会话窗口 u ，进入 [screen -Udr u]，关闭 [screen -SX u quit]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log"
-T[E21]="Media unlock daemon installed successfully. A jobs has been created, check [pgrep -laf warp_unlock] and close [kill -9 \$(pgrep -f warp_unlock)]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log"
-T[C21]="媒体解锁守护进程已安装成功，已创建一个jobs，查看 [pgrep -laf warp_unlock]，关闭 [kill -9 \$(pgrep -f warp_unlock)]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log"
+T[E20]="Media unlock daemon installed successfully. A session window u has been created, enter [screen -Udr u] and close [screen -SX u quit]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
+T[C20]="\n 媒体解锁守护进程已安装成功，已创建一个会话窗口 u ，进入 [screen -Udr u]，关闭 [screen -SX u quit]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log\n"
+T[E21]="Media unlock daemon installed successfully. A jobs has been created, check [pgrep -laf warp_unlock] and close [kill -9 \$(pgrep -f warp_unlock)]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
+T[C21]="\n 媒体解锁守护进程已安装成功，已创建一个jobs，查看 [pgrep -laf warp_unlock]，关闭 [kill -9 \$(pgrep -f warp_unlock)]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log\n"
+T[E22]="The script runs on today: \$TODAY. Total:\$TOTAL\\\n"
+T[C22]="脚本当天运行次数:\$TODAY，累计运行次数：\$TOTAL\\\n"
 
-# 自定义字体彩色，read 函数，友道翻译函数
+# 自定义字体彩色，read 函数，友道翻译函数，安装依赖函数
 red(){ echo -e "\033[31m\033[01m$1\033[0m"; }
 green(){ echo -e "\033[32m\033[01m$1\033[0m"; }
 yellow(){ echo -e "\033[33m\033[01m$1\033[0m"; }
 reading(){ read -rp "$(green "$1")" "$2"; }
 translate(){ [[ -n "$1" ]] && curl -sm8 "http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=$1" | cut -d \" -f18 2>/dev/null; }
+check_dependencies(){ for c in $@; do
+type -P $c >/dev/null 2>&1 || (yellow " $(eval echo "${T[${L}7]}") " && ${PACKAGE_INSTALL[b]} $c) || (yellow " $(eval echo "${T[${L}8]}") " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} $c)
+! type -P $c >/dev/null 2>&1 && yellow " $(eval echo "${T[${L}9]}") " && exit 1; done;	 }
+
+# 脚本当天及累计运行次数统计
+statistics_of_run-times(){
+COUNT=$(curl -sm1 "https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffscarmen%2Fwarp_unlock%2Fmain%2Funlock.sh&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" 2>&1) &&
+TODAY=$(expr "$COUNT" : '.*\s\([0-9]\{1,\}\)\s/.*') && TOTAL=$(expr "$COUNT" : '.*/\s\([0-9]\{1,\}\)\s.*')
+	}
 
 # 选择语言，先判断 /etc/wireguard/language 里的语言选择，没有的话再让用户选择，默认英语
-choose_laguage(){
+select_laguage(){
 case $(cat /etc/wireguard/language 2>&1) in
 E ) L=E;;	C ) L=C;;
 * ) L=E && yellow " ${T[${L}0]} " && reading " ${T[${L}3]} " LANGUAGE 
@@ -97,12 +108,6 @@ done
 [[ -z $SYSTEM ]] && red " ${T[${L}5]} " && exit 1
 }
 
-# 检查依赖，安装 curl
-check_dependencies(){
-type -P curl >/dev/null 2>&1 || (yellow " ${T[${L}7]} " && ${PACKAGE_INSTALL[b]} curl) || (yellow " ${T[${L}8]} " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} curl)
-! type -P curl >/dev/null 2>&1 && yellow " ${T[${L}9]} " && exit 1
-}
-
 # 检查解锁方式是否已运行
 check_unlock_running(){
 	grep -qE "warp_unlock" /etc/crontab && RUNNING=1
@@ -125,15 +130,15 @@ case "${STATUS[*]}" in
       * ) wget -N https://cdn.jsdelivr.net/gh/fscarmen/warp/menu.sh && bash menu.sh; exit;;
      esac;;
 '0 1' ) PROXYSOCKS5=$(ss -nltp | grep warp | grep -oP '127.0*\S+')
-     NF="-s4m7 --socks5 $PROXYSOCKS5"
+     NIC="-s4m7 --socks5 $PROXYSOCKS5"
      RESTART="socks5_restart";;
-'1 0' ) NF='-4'
+'1 0' ) NIC='-4'
      RESTART="wgcf_restart";;
 '1 1' ) yellow " ${T[${L}6]} " && reading " ${T[${L}3]} " CHOOSE3
       case "$CHOOSE3" in
-      2 ) NF='-6'; RESTART="wgcf_restart";;
+      2 ) NIC='-6'; RESTART="wgcf_restart";;
       * ) PROXYSOCKS5=$(ss -nltp | grep warp | grep -oP '127.0*\S+')
-          NF="-s4m7 --socks5 $PROXYSOCKS5"
+          NIC="-s4m7 --socks5 $PROXYSOCKS5"
 	  RESTART="socks5_restart";;
       esac;;
  esac
@@ -141,19 +146,19 @@ case "${STATUS[*]}" in
 
 # 期望解锁流媒体, 变量 SUPPORT_NUM 限制选项枚举的试数，不填默认全选
 input_streammedia_unlock(){
-SUPPORT_NUM='1'
+SUPPORT_NUM='2'
 yellow " ${T[${L}15]} " && reading " ${T[${L}3]} " CHOOSE4
 for ((d=0; d<"$SUPPORT_NUM"; d++)); do
        ( [[ -z "$CHOOSE4" ]] || echo "$CHOOSE4" | grep -q "$((d+1))" ) && STREAM_UNLOCK[d]='1' || STREAM_UNLOCK[d]='0'
 done
-UNLOCK_SELECT=$(for ((e=0; e<"$((SUPPORT_NUM+1))"; e++)); do
+UNLOCK_SELECT=$(for ((e=0; e<"$SUPPORT_NUM"; e++)); do
                 [[ "${STREAM_UNLOCK[e]}" = 1 ]] && echo -e "[[ ! \${R[*]} =~ 'No' ]] && check$e;"
 		done)
 }
 
 # 期望解锁地区
 input_region(){
-	REGION=$(curl -sm8 https://ip.gs/country-iso)
+	REGION=$(curl -sm8 https://ip.gs/country-iso 2>/dev/null)
 	reading " $(eval echo "${T[${L}13]}") " EXPECT
 	until [[ -z $EXPECT || $EXPECT = [Yy] || $EXPECT =~ ^[A-Za-z]{2}$ ]]; do
 		reading " $(eval echo "${T[${L}13]}") " EXPECT
@@ -171,6 +176,7 @@ input_streammedia_unlock
 sh -c "$TASK"
 
 # 生成 warp_unlock.sh 文件，判断当前流媒体解锁状态，遇到不解锁时更换 WARP IP，直至刷成功。5分钟后还没有刷成功，将不会重复该进程而浪费系统资源
+# 感谢以下两位作者: lmc999 [https://github.com/lmc999/RegionRestrictionCheck] 和 luoxue-bot [https://github.com/luoxue-bot/warp_auto_change_ip]
 cat <<EOF >/etc/wireguard/warp_unlock.sh
 EXPECT="$EXPECT"
 timedatectl set-timezone Asia/Shanghai
@@ -185,17 +191,46 @@ warp-cli --accept-tos delete >/dev/null 2>&1 && warp-cli --accept-tos register >
 
 check0(){
 RESULT[0]=""; REGION[0]=""; R[0]="";
-RESULT[0]=\$(curl --user-agent "\${UA_Browser}" $NF -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567"  2>&1)
+RESULT[0]=\$(curl --user-agent "\${UA_Browser}" $NIC -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567"  2>&1)
 if [[ \${RESULT[0]} = 200 ]]; then
-REGION[0]=\$(curl --user-agent "${UA_Browser}" $NF -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g' | tr '[:lower:]' '[:upper:]')
+REGION[0]=\$(curl --user-agent "${UA_Browser}" $NIC -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g' | tr '[:lower:]' '[:upper:]')
 REGION[0]=\${REGION[0]:-'US'}
 fi
 echo "\${REGION[0]}" | grep -qi "\$EXPECT" && R[0]='Yes' || R[0]='No'
 echo -e "\$(date +'%F %T'). Netflix: \${R[0]}" | tee -a /root/result.log
 }
 
+check1(){
+unset PreAssertion assertion disneycookie TokenContent isBanned is403 fakecontent refreshToken disneycontent tmpresult previewcheck isUnabailable region inSupportedLocation
+R[1]=""
+PreAssertion=\$(curl $NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/devices" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -H "content-type: application/json; charset=UTF-8" -d '{"deviceFamily":"browser","applicationRuntime":"chrome","deviceProfile":"windows","attributes":{}}' 2>&1)
+[[ "\$PreAssertion" == "curl"* ]] && R[1]='No'
+if [[ \${R[1]} != 'No' ]]; then
+assertion=\$(echo \$PreAssertion | python -m json.tool 2> /dev/null | grep assertion | cut -f4 -d'"')
+PreDisneyCookie=\$(curl -s --max-time 10 "https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/cookies" | sed -n '1p')
+disneycookie=\$(echo \$PreDisneyCookie | sed "s/DISNEYASSERTION/\${assertion}/g")
+TokenContent=\$(curl $NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/token" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycookie")
+isBanned=\$(echo \$TokenContent | python -m json.tool 2> /dev/null | grep 'forbidden-location')
+is403=\$(echo \$TokenContent | grep '403 ERROR')
+[[ -n "\$isBanned\$is403" ]] && R[1]='No'
+fi
+
+if [[ \${R[1]} != 'No' ]]; then
+fakecontent=\$(curl -s --max-time 10 "https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/cookies" | sed -n '8p')
+refreshToken=\$(echo \$TokenContent | python -m json.tool 2> /dev/null | grep 'refresh_token' | awk '{print \$2}' | cut -f2 -d'"')
+disneycontent=\$(echo \$fakecontent | sed "s/ILOVEDISNEY/\${refreshToken}/g")
+tmpresult=\$(curl $NIC --user-agent "\${UA_Browser}" -X POST -sSL --max-time 10 "https://disney.api.edge.bamgrid.com/graph/v1/device/graphql" -H "authorization: ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycontent" 2>&1)
+previewcheck=\$(curl $NIC -s -o /dev/null -L --max-time 10 -w '%{url_effective}\n' "https://disneyplus.com" | grep preview)
+isUnabailable=\$(echo \$previewcheck | grep 'unavailable')      
+region=\$(echo \$tmpresult | python -m json.tool 2> /dev/null | grep 'countryCode' | cut -f4 -d'"')
+inSupportedLocation=\$(echo \$tmpresult | python -m json.tool 2> /dev/null | grep 'inSupportedLocation' | awk '{print \$2}' | cut -f1 -d',')
+[[ "\$region" == "JP" || ( -n "\$region" && "\$inSupportedLocation" == "true" ) ]] && R[1]='Yes' || R[1]='No'
+fi
+echo -e "\$(date +'%F %T'). Disney+: \${R[1]}" | tee -a /root/result.log
+}
+
 ${MODE2[0]}
-echo -e "\$(date +'%F %T'). IP:\$(curl $NF https://ip.gs)" | tee -a /root/result.log
+echo -e "\$(date +'%F %T'). IP:\$(curl $NIC https://ip.gs 2>/dev/null)" | tee -a /root/result.log
 UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
 $UNLOCK_SELECT
 until [[ ! \${R[*]}  =~ 'No' ]]; do
@@ -212,14 +247,17 @@ EOF
 
 # 输出执行结果
 green " $RESULT_OUTPUT "
+green " $(eval echo "${T[${L}22]}") "
 }
 
 uninstall(){
+screen -QX u quit >/dev/null 2>&1
+screen -wipe >/dev/null 2>&1
 type -P wg-quick >/dev/null 2>&1 && wg-quick down wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos delete >/dev/null 2>&1 && sleep 1
 sed -i '/warp_unlock.sh/d' /etc/crontab
 kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
-kill -9 $(jobs -l | grep warp_unlock | awk '{print $2}')
+kill -9 $(jobs -l | grep warp_unlock | awk '{print $2}') >/dev/null 2>&1
 rm -f /etc/wireguard/warp_unlock.sh /root/result.log
 type -P wg-quick >/dev/null 2>&1 && wg-quick up wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos register >/dev/null 2>&1
@@ -229,7 +267,8 @@ green " ${T[${L}11]} "
 }
 
 # 主程序运行
-choose_laguage
+statistics_of_run-times
+select_laguage
 check_unlock_running
 action0(){ exit 0; }
 if [[ "$RUNNING" = 1 ]]; then
@@ -239,7 +278,7 @@ action2(){ exit 0; }
 else
 MENU_SHOW="${T[${L}12]}"
 check_system_info
-check_dependencies
+check_dependencies curl
 check_warp
 action1(){
 TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh 2>&1 | tee -a /root/result.log\" >> /etc/crontab"
@@ -252,8 +291,9 @@ MODE2[1]="sleep 1h"
 MODE2[2]="done"
 TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh 2>&1 | tee -a /root/result.log\" >> /etc/crontab"
 RESULT_OUTPUT="${T[${L}20]}"
+check_dependencies screen
 export_unlock_file
-screen -USdm u bash /etc/wireguard/warp_unlock.sh $AREA 2>&1 | tee -a /root/result.log
+screen -USdm u bash /etc/wireguard/warp_unlock.sh 2>&1
 	}
 action3(){ 
 MODE2[0]="while true; do"
