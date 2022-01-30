@@ -13,9 +13,8 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO:~1. Improve the architecture first, so that adding detection items in the future can be faster, more scalable and reusable; 2. Add other unlocking methods; 3. In addition to the original Netflix, add other unlocking support such as Disney+; 4.Running log file~ 5. Check Unlock socks5 support for mainstream scripts 6. getopts pass parameters
-   
-待更新: ~1.先完善架构，以便日后增加检测项能更快捷，更具扩展性和复用性; 2.增加其他解锁方式; 3.除原有的 Netflix 外，增加 Disney+ 等其他解锁支持; 4.运行日志~ 5.查解锁主流脚本的 socks5 支持(如作者支持就不做改了，直接引用) 6. getopts 传参
+
+2022.1.30 1.03 1. Suppport pass parameter. You can run like this:``` [ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2]```; 2. Improve log details 1. 支持传参，你可以这样运行脚本:  ```[ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M2]```
 
 2022.1.29 1.02 1. Support Disney+ 1. 支持 Disney+
 
