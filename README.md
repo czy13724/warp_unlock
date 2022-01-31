@@ -71,11 +71,17 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
   | -N | d | Unlock Disney+ 解锁迪士尼 |
   | -N | ud | Unlock Neflix and Disney+ 解锁奈飞和迪士尼 |
 
-For example: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed
-举例: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次
+For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed
+举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次
 ```
 bash -x  <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -C -A sg -4 -N n -M 1
 ```
+For example 2: Display and uninstall in English
+举例2: 用英文卸载
+```
+bash -x  <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -U
+```
+
 
 ## 鸣谢下列作者的文章和项目
 
