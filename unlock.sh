@@ -5,6 +5,9 @@ export LANG=en_US.UTF-8
 # 当前脚本版本号和新增功能
 VERSION=1.04
 
+# 最大支持流媒体
+SUPPORT_NUM='2'
+
 # 设置关联数组 T 用于中英文
 declare -A T
 
@@ -66,8 +69,8 @@ T[E27]="No unlock script is installed."
 T[C27]="解锁脚本还没有安装"
 T[E28]="Unlock script is installed."
 T[C28]="解锁脚本已安装"
-T[E29]="\\\n Please enter Bot Token if you need push the logs to Telegram . Leave blank to skip:"
-T[C29]="\\\n 如需要把日志推送到 Telegram 机器人，请输入 Bot Token:"
+T[E29]="\\\n Please enter Bot Token if you need push the logs to Telegram. Leave blank to skip:"
+T[C29]="\\\n 如需要把日志推送到 Telegram 机器人，请输入 Bot Token，不需要直接回车:"
 T[E30]="\\\n Enter USERID:"
 T[C30]="\\\n 输入 USERID:"
 T[E31]="\\\n Enter custom name:"
@@ -172,13 +175,13 @@ case "${STATUS[@]}" in
  esac
 }
 
-# 期望解锁流媒体, 变量 SUPPORT_NUM 限制选项枚举的试数，不填默认全选
+# 期望解锁流媒体, 变量 SUPPORT_NUM 限制选项枚举的次数，不填默认全选, 解锁状态保存在 /etc/wireguard/status.log
 input_streammedia_unlock(){
-SUPPORT_NUM='2'
 if [[ -z "${STREAM_UNLOCK[@]}" ]]; then
 	yellow " ${T[${L}15]} " && reading " ${T[${L}3]} " CHOOSE4
 	for ((d=0; d<"$SUPPORT_NUM"; d++)); do
 	       ( [[ -z "$CHOOSE4" ]] || echo "$CHOOSE4" | grep -q "$((d+1))" ) && STREAM_UNLOCK[d]='1' || STREAM_UNLOCK[d]='0'
+	       [[ $d = 0 ]] && echo 'null' > /etc/wireguard/status.log || echo 'null' >> /etc/wireguard/status.log
 	done
 fi
 UNLOCK_SELECT=$(for ((e=0; e<"$SUPPORT_NUM"; e++)); do
@@ -201,8 +204,8 @@ input_region(){
 # Telegram Bot 日志推送
 input_tg(){
 	[[ -z $CUSTOM ]] && reading " $(eval echo "${T[${L}29]}") " TOKEN
-	[[ -n $TOKEN ]] && reading " $(eval echo "${T[${L}30]}") " USERID
-	[[ -n $USERID ]] && reading " $(eval echo "${T[${L}31]}") " CUSTOM
+	[[ -n $TOKEN && -z $USERID ]] && reading " $(eval echo "${T[${L}30]}") " USERID
+	[[ -n $USERID && -z $CUSTOM ]] && reading " $(eval echo "${T[${L}31]}") " CUSTOM
 	}
 
 # 根据用户选择在线生成解锁程序，放在 /etc/wireguard/unlock.sh
@@ -255,7 +258,8 @@ fi
 echo "\${REGION[0]}" | grep -qi "\$EXPECT" && R[0]='Yes' || R[0]='No'
 CONTENT="Netflix: \${R[0]}."
 echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log
-[[ -n "\$CUSTOM" ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+[[ -n "\$CUSTOM" ]] && [[ \${R[0]} != \$(sed -n '1p' /etc/wireguard/status.log) ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+sed -i "1s/.*/\${R[0]}/" /etc/wireguard/status.log
 }
 
 check1(){
@@ -286,7 +290,8 @@ inSupportedLocation=\$(echo \$tmpresult | python -m json.tool 2> /dev/null | gre
 fi
 CONTENT="Disney+: \${R[1]}."
 echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log
-[[ -n "\$CUSTOM" ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+[[ -n "\$CUSTOM" ]] && [[ \${R[1]} != \$(sed -n '2p' /etc/wireguard/status.log) ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+sed -i "2s/.*/\${R[1]}/" /etc/wireguard/status.log
 }
 
 ${MODE2[0]}
@@ -302,9 +307,6 @@ $UNLOCK_SELECT
 done
 ${MODE2[1]}
 ${MODE2[2]}
-
-else	echo -e "\$(date +'%F %T'). Brushing IP is working now." | tee -a /root/result.log
-	[[ -n "\$CUSTOM" ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(date +'%F %T'). Brushing IP is working now." -d parse_mode="HTML" >/dev/null 2>&1
 fi
 EOF
 
@@ -321,7 +323,7 @@ type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos delete >/dev/null 2>&1
 sed -i '/warp_unlock.sh/d' /etc/crontab
 kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
 kill -9 $(jobs -l | grep warp_unlock | awk '{print $2}') >/dev/null 2>&1
-rm -f /etc/wireguard/warp_unlock.sh /root/result.log
+rm -f /etc/wireguard/warp_unlock.sh /root/result.log /etc/wireguard/status.log
 type -P wg-quick >/dev/null 2>&1 && wg-quick up wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos register >/dev/null 2>&1
 
@@ -338,7 +340,7 @@ statistics_of_run-times
 select_laguage
 
 # 传参 2/2
-while getopts ":CcEeUu46SsM:m:A:a:N:n:" OPTNAME; do
+while getopts ":CcEeUu46SsM:m:A:a:N:n:T:t:" OPTNAME; do
 	case "$OPTNAME" in
 		'C'|'c' ) L='C';;
 		'E'|'e' ) L='E';;
@@ -354,8 +356,14 @@ while getopts ":CcEeUu46SsM:m:A:a:N:n:" OPTNAME; do
 			  else [[ $OPTARG != [1-3] ]] && red " ${T[${L}25]} " && exit 1 || CHOOSE1=$OPTARG
 			  fi;;
 		'A'|'a' ) [[ ! "$OPTARG" =~ ^[A-Za-z]{2}$ ]] && red " ${T[${L}26]} " && exit 1 || EXPECT="$OPTARG";;
-		'N'|'n' ) echo "$OPTARG" | grep -qi 'n' && STREAM_UNLOCK[0]='1' || STREAM_UNLOCK[0]='0'
+		'N'|'n' ) for ((d=0; d<"$SUPPORT_NUM"; d++)); do
+	       		  [[ $d = 0 ]] && echo 'null' > /etc/wireguard/status.log || echo 'null' >> /etc/wireguard/status.log; done
+			  echo "$OPTARG" | grep -qi 'n' && STREAM_UNLOCK[0]='1' || STREAM_UNLOCK[0]='0'
 			  echo "$OPTARG" | grep -qi 'd' && STREAM_UNLOCK[1]='1' || STREAM_UNLOCK[1]='0';;
+		'T'|'t' ) TOKEN="$(echo $OPTARG | cut -d'@' -f1)"
+			  USERID="$(echo $OPTARG | cut -d'@' -f2)"
+			  CUSTOM="$(echo $OPTARG | cut -d'@' -f3)"
+			  CUSTOM="${CUSTOM:-'Stream Media Unlock'}";;
     	esac
 done
 
