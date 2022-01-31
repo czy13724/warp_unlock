@@ -15,6 +15,8 @@ Born to make stream media unlock by WARP
 ## 更新信息和 TODO
 TODO: Support TG bot 人形支持
 
+2022.1.31 1.04 1. Support push the logs to Telegram. 1. 日志结果输出到 Telegram.
+
 2022.1.30 1.03 1. Suppport pass parameter. You can run like this:```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2```; 2. Improve log details     
 1. 支持传参，你可以这样运行脚本:  ```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M2```; 2. 把日志详细
 
