@@ -73,16 +73,17 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
   | -N | n | Unlock Neflix 解锁奈飞 |
   | -N | d | Unlock Disney+ 解锁迪士尼 |
   | -N | ud | Unlock Neflix and Disney+ 解锁奈飞和迪士尼 |
+  | -T | Token@ID@Name | Receive messages Bot 接收信息的 TG bot 信息 |
 
-For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed
-举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次
+For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed. Receive message to
+举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次，
 ```
-bash -x  <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -C -A sg -4 -N n -M 1
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8&1254502669@unlock
 ```
 For example 2: Display and uninstall in English
 举例2: 用英文卸载
 ```
-bash -x  <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -U
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -U
 ```
 
 
