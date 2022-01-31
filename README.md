@@ -24,21 +24,13 @@ TODO: Support TG bot 人形支持
 
 2022.1.28 1.01 1. Add two ways to unlock; 2. Add running logs file 1. 增加两种解锁方式; 2. 加入运行日志
 ```
-2022-01-30 19:30:05. IP: 8.38.147.6. Country: Singapore. ASN: CLOUDFLARENET.
-2022-01-30 19:30:06. IP: 8.38.147.6. Country: Singapore. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:30:16. IP: 8.29.105.162. Country: United States. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:30:26. IP: 8.30.234.152. Country: Singapore. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:30:34. IP: 8.29.105.171. Country: United States. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:30:43. IP: 8.30.234.205. Country: Singapore. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:30:52. IP: 8.29.105.35. Country: United States. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:31:01. IP: 8.30.234.5. Country: Singapore. ASN: CLOUDFLARENET. Netflix: No.
-2022-01-30 19:31:14. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET. Netflix: Yes.
-2022-01-30 19:35:05. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET.
-2022-01-30 19:35:08. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET. Netflix: Yes.
-2022-01-30 19:40:05. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET.
-2022-01-30 19:40:09. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET. Netflix: Yes.
-2022-01-30 19:45:04. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET.
-2022-01-30 19:45:08. IP: 8.25.96.123. Country: Singapore. ASN: CLOUDFLARENET. Netflix: Yes.
+2022-01-31 21:27:35.    IP: 8.37.43.216         Country: Japan          ASN: CLOUDFLARENET.     Script runs.
+2022-01-31 21:27:35.    IP: 8.37.43.216         Country: Japan          ASN: CLOUDFLARENET.     Netflix: No.
+2022-01-31 21:27:56.    IP: 8.37.43.188         Country: Japan          ASN: CLOUDFLARENET.     Netflix: No.
+2022-01-31 21:28:15.    IP: 8.37.43.192         Country: Japan          ASN: CLOUDFLARENET.     Netflix: No.
+2022-01-31 21:28:38.    IP: 8.37.43.229         Country: Japan          ASN: CLOUDFLARENET.     Netflix: Yes.
+2022-01-31 22:28:40.    IP: 8.37.43.229         Country: Japan          ASN: CLOUDFLARENET.     Script runs.
+2022-01-31 22:28:42.    IP: 8.37.43.229         Country: Japan          ASN: CLOUDFLARENET.     Netflix: Yes.
 ```
 
 beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the scheduled task exits immediately. If it is not unlocked, it will be swiped successfully in the background. Advantages: Minimized use of system resources. ~Disadvantage: Can't see the results as intuitively as screen~
@@ -50,6 +42,8 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 * 日志输出
 
 <img src="https://user-images.githubusercontent.com/62703343/151651669-92d5263e-bfa2-4c2c-9928-683b678d9956.png" width="70%" />
+
+<img src="https://user-images.githubusercontent.com/62703343/151813389-f5ccefe5-0309-44d6-984f-e5c2a5981670.png" width="50%" />
 
 ## 运行脚本
 
