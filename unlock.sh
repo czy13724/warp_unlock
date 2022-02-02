@@ -3,18 +3,19 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/sbin:/b
 export LANG=en_US.UTF-8
 
 # 当前脚本版本号和新增功能
-VERSION=1.04
+VERSION=1.05
 
-# 最大支持流媒体
+# 最大支持流媒体，最大支持解锁方法
 SUPPORT_NUM='2'
+UNLOCK_NUM='3'
 
 # 设置关联数组 T 用于中英文
 declare -A T
 
 T[E0]="\n Language:\n  1.English (default) \n  2.简体中文\n"
 T[C0]="${T[E0]}"
-T[E1]="1. Suppport pass parameter. You can run like this:bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2; 2. Support logs push to Telegram."
-T[C1]="支持传参，你可以这样运行脚本: bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2; 2. 把日志输出到 Telegram"
+T[E1]="1. Suppport pass parameter. You can run like this:bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2; 2. Support logs push to Telegram; 3. Support switch unlock modes freely"
+T[C1]="支持传参，你可以这样运行脚本: bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2; 2. 把日志输出到 Telegram; 3. 自由地切换解锁模式"
 T[E2]="The script must be run as root, you can enter sudo -i and then download and run again. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
 T[C2]="必须以root方式运行脚本，可以输入 sudo -i 后重新下载运行，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
 T[E3]="Choose:"
@@ -49,8 +50,8 @@ T[E17]="Version"
 T[C17]="脚本版本"
 T[E18]="New features"
 T[C18]="功能新增"
-T[E19]="\n Stream media unlock daemon is running.\n 1. Uninstall\n 0. Exit\n"
-T[C19]="\n 流媒体解锁守护正在运行中\n 1. 卸载\n 0. 退出\n"
+T[E19]="\\\n Stream media unlock daemon is running in \${UNLOCK_MODE_NOW[f]}.\\\n 1. Switch to \${UNLOCK_MODE_AFTER1[f]}\\\n 2. Switch to \${UNLOCK_MODE_AFTER2[f]}\\\n 3. Uninstall\\\n 0. Exit\\\n"
+T[C19]="\\\n 流媒体解锁守护正在以 \${UNLOCK_MODE_NOW[f]} 运行中\\\n 1. 切换至\${UNLOCK_MODE_AFTER1[f]}\\\n 2. 切换至\${UNLOCK_MODE_AFTER2[f]}\\\n 3. 卸载\\\n 0. 退出\\\n"
 T[E20]="Media unlock daemon installed successfully. A session window u has been created, enter [screen -Udr u] and close [screen -SX u quit]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
 T[C20]="\n 媒体解锁守护进程已安装成功，已创建一个会话窗口 u ，进入 [screen -Udr u]，关闭 [screen -SX u quit]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log\n"
 T[E21]="Media unlock daemon installed successfully. A jobs has been created, check [pgrep -laf warp_unlock] and close [kill -9 \$(pgrep -f warp_unlock)]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
@@ -75,6 +76,19 @@ T[E30]="\\\n Enter USERID:"
 T[C30]="\\\n 输入 USERID:"
 T[E31]="\\\n Enter custom name:"
 T[C31]="\\\n 自定义名称:"
+T[E40]="Mode 1: Check it every 5 minutes"
+T[C40]="模式1: 定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功"
+T[E41]="Mode 2: Create a screen named [u] and run"
+T[C41]="模式2: 创建一个名为 [u] 的 Screen 在后台刷"
+T[E42]="Mode 3: Create a jobs with nohup to run in the background"
+T[C42]="模式3: 用 nohup 创建一个 jobs 在后台刷"
+T[E43]=""
+T[C43]=""
+T[E44]=""
+T[C44]=""
+T[E45]=""
+T[C45]=""
+
 
 # 自定义字体彩色，read 函数，友道翻译函数，安装依赖函数
 red(){ echo -e "\033[31m\033[01m$1\033[0m"; }
@@ -126,9 +140,55 @@ done
 [[ -z $SYSTEM ]] && red " ${T[${L}5]} " && exit 1
 }
 
-# 检查解锁方式是否已运行
+# 检查解锁是否已运行，如果是则判断模式，以前给更换模式赋值
 check_unlock_running(){
-	grep -qE "warp_unlock" /etc/crontab && RUNNING=1
+	switch_1_2(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab"
+			MODE2=("while true; do" "sleep 1h; done")
+			check_dependencies screen
+			}
+	switch_1_3(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root nohup bash /etc/wireguard/warp_unlock.sh &\" >> /etc/crontab"
+			MODE2=("while true; do" "sleep 1h; done")
+			}
+	switch_2_1(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab";	}
+	switch_2_3(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root nohup bash /etc/wireguard/warp_unlock.sh &\" >> /etc/crontab"
+			MODE2=("while true; do" "sleep 1h; done")
+			}	
+	switch_3_1(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab";	}
+	switch_3_2(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab"
+			MODE2=("while true; do" "sleep 1h; done")
+			check_dependencies screen
+			}
+	run_1_2(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
+			screen -USdm u bash /etc/wireguard/warp_unlock.sh
+			}
+	run_1_3(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
+			nohup bash /etc/wireguard/warp_unlock.sh >/dev/null 2>&1 &
+			}
+	run_2_1(){	screen -QX u quit >/dev/null 2>&1; }
+	run_2_3(){	screen -QX u quit >/dev/null 2>&1
+			nohup bash /etc/wireguard/warp_unlock.sh >/dev/null 2>&1 &
+			}
+	run_3_1(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1; }
+	run_3_2(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
+			screen -USdm u bash /etc/wireguard/warp_unlock.sh
+			}
+
+	EXPECT=$(grep -s "EXPECT=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)	
+	TOKEN=$(grep -s "TOKEN=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
+	USERID=$(grep -s "USERID=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
+	CUSTOM=$(grep -s "CUSTOM=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
+	NIC=$(grep -s "NIC=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
+
+	check_crontab=("^\*.*warp_unlock" "screen.*warp_unlock" "nohup.*warp_unlock")
+	for ((f=0; f<$UNLOCK_NUM; f++)); do
+	grep -qE "${check_crontab[f]}" /etc/crontab && break; done
+	UNLOCK_MODE_NOW=("${T[${L}40]}" "${T[${L}41]}" "${T[${L}42]}")
+	UNLOCK_MODE_AFTER1=("${T[${L}41]}" "${T[${L}40]}" "${T[${L}40]}")
+	UNLOCK_MODE_AFTER2=("${T[${L}42]}" "${T[${L}42]}" "${T[${L}41]}")
+	SWITCH_MODE1=( "switch_1_2" "switch_2_1" "switch_3_1" )
+	SWITCH_MODE2=( "switch_1_3" "switch_2_3" "switch_3_2" )
+	RUN_AFTER_SWITCH1=( "run_1_2" "run_2_1" "run_3_1" )
+	RUN_AFTER_SWITCH2=( "run_1_3" "run_2_3" "run_3_2" )
 }
 
 # 判断是否已经安装 WARP 网络接口或者 Socks5 代理,如已经安装组件尝试启动。再分情况作相应处理
@@ -156,20 +216,20 @@ case "${STATUS[@]}" in
       * ) wget -N https://cdn.jsdelivr.net/gh/fscarmen/warp/menu.sh && bash menu.sh; exit;;
      esac;;
 '0 0 1' ) PROXYSOCKS5=$(ss -nltp | grep warp | grep -oP '127.0*\S+')
-     NIC="-s4m7 --socks5 $PROXYSOCKS5"
+     NIC="-s4m8 --socks5 $PROXYSOCKS5"
      RESTART="socks5_restart";;
-'0 1 0' ) NIC='-s6m7'; RESTART="wgcf_restart";;
-'1 0 0' ) NIC='-s4m7'; RESTART="wgcf_restart";;
+'0 1 0' ) NIC='-s6m8'; RESTART="wgcf_restart";;
+'1 0 0' ) NIC='-s4m8'; RESTART="wgcf_restart";;
 '1 1 0' ) yellow " ${T[${L}23]} " && reading " ${T[${L}3]} " CHOOSE3
       case "$CHOOSE3" in
-      2 ) NIC='-s6m7'; RESTART="wgcf_restart";;
-      * ) NIC='-s4m7'; RESTART="wgcf_restart";;
+      2 ) NIC='-s6m8'; RESTART="wgcf_restart";;
+      * ) NIC='-s4m8'; RESTART="wgcf_restart";;
       esac;;
 '0 1 1' ) yellow " ${T[${L}6]} " && reading " ${T[${L}3]} " CHOOSE3
       case "$CHOOSE3" in
-      2 ) NIC='-s6m7'; RESTART="wgcf_restart";;
+      2 ) NIC='-s6m8'; RESTART="wgcf_restart";;
       * ) PROXYSOCKS5=$(ss -nltp | grep warp | grep -oP '127.0*\S+')
-          NIC="-s4m7 --socks5 $PROXYSOCKS5"
+          NIC="-s4m8 --socks5 $PROXYSOCKS5"
 	  RESTART="socks5_restart";;
       esac;;
  esac
@@ -185,7 +245,7 @@ if [[ -z "${STREAM_UNLOCK[@]}" ]]; then
 	done
 fi
 UNLOCK_SELECT=$(for ((e=0; e<"$SUPPORT_NUM"; e++)); do
-                [[ "${STREAM_UNLOCK[e]}" = 1 ]] && echo -e "[[ ! \${R[*]} =~ 'No' ]] && check$e;"
+                [[ "${STREAM_UNLOCK[e]}" = 1 ]] && echo -e "[[ ! \${R[*]} =~ 'No' ]] && check$e;" || echo -e "#[[ ! \${R[*]} =~ 'No' ]] && check$e;"
 		done)
 }
 
@@ -226,16 +286,20 @@ EXPECT="$EXPECT"
 TOKEN="$TOKEN"
 USERID="$USERID"
 CUSTOM="$CUSTOM"
+NIC="$NIC"
 timedatectl set-timezone Asia/Shanghai
 
 if [[ \$(pgrep -laf ^[/d]*bash.*warp_unlock | awk -F, '{a[\$2]++}END{for (i in a) print i" "a[i]}') -le 2 ]]; then
 
-log_output="\\\$(date +'%F %T').\\\\\tIP: \\\$WAN\\\\\t\\\\\tCountry: \\\$COUNTRY\\\\\t\\\\\tASN: \\\$ASNORG.\\\\\t\\\$CONTENT"
-tg_output="Server:\\\$CUSTOM. \\\$(date +'%F %T'). IP: \\\$WAN  Country: \\\$COUNTRY. ASN: \\\$ASNORG. \\\$CONTENT"
+log_output="\\\$(date +'%F %T').\\\\\tIP: \\\$WAN\\\\\tCountry: \\\$COUNTRY\\\\\t\\\$CONTENT"
+tg_output="Server:\\\$CUSTOM. \\\$(date +'%F %T'). IP: \\\$WAN  Country: \\\$COUNTRY. \\\$CONTENT"
+
+log_message(){ echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log; }
+tg_message(){ curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1; }
 
 ip(){
 unset IP_INFO WAN COUNTRY ASNORG
-IP_INFO="\$(curl $NIC https://ip.gs/json 2>/dev/null)"
+IP_INFO="\$(curl \$NIC https://ip.gs/json 2>/dev/null)"
 WAN=\$(expr "\$IP_INFO" : '.*ip\":\"\([^"]*\).*')
 COUNTRY=\$(expr "\$IP_INFO" : '.*country\":\"\([^"]*\).*')
 ASNORG=\$(expr "\$IP_INFO" : '.*asn_org\":\"\([^"]*\).*')
@@ -250,28 +314,28 @@ ip
 
 check0(){
 RESULT[0]=""; REGION[0]=""; R[0]="";
-RESULT[0]=\$(curl --user-agent "\${UA_Browser}" $NIC -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567"  2>&1)
+RESULT[0]=\$(curl --user-agent "\${UA_Browser}" \$NIC -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567"  2>&1)
 if [[ \${RESULT[0]} = 200 ]]; then
-REGION[0]=\$(curl --user-agent "${UA_Browser}" $NIC -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g' | tr '[:lower:]' '[:upper:]')
+REGION[0]=\$(curl --user-agent "\${UA_Browser}" \$NIC -fs --max-time 10 --write-out %{redirect_url} --output /dev/null "https://www.netflix.com/title/80018499" | sed 's/.*com\/\([^-/]\{1,\}\).*/\1/g' | tr '[:lower:]' '[:upper:]')
 REGION[0]=\${REGION[0]:-'US'}
 fi
 echo "\${REGION[0]}" | grep -qi "\$EXPECT" && R[0]='Yes' || R[0]='No'
 CONTENT="Netflix: \${R[0]}."
-echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log
-[[ -n "\$CUSTOM" ]] && [[ \${R[0]} != \$(sed -n '1p' /etc/wireguard/status.log) ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+log_message
+[[ -n "\$CUSTOM" ]] && [[ \${R[0]} != \$(sed -n '1p' /etc/wireguard/status.log) ]] && tg_message
 sed -i "1s/.*/\${R[0]}/" /etc/wireguard/status.log
 }
 
 check1(){
 unset PreAssertion assertion disneycookie TokenContent isBanned is403 fakecontent refreshToken disneycontent tmpresult previewcheck isUnabailable region inSupportedLocation
 R[1]=""
-PreAssertion=\$(curl $NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/devices" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -H "content-type: application/json; charset=UTF-8" -d '{"deviceFamily":"browser","applicationRuntime":"chrome","deviceProfile":"windows","attributes":{}}' 2>&1)
+PreAssertion=\$(curl \$NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/devices" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -H "content-type: application/json; charset=UTF-8" -d '{"deviceFamily":"browser","applicationRuntime":"chrome","deviceProfile":"windows","attributes":{}}' 2>&1)
 [[ "\$PreAssertion" == "curl"* ]] && R[1]='No'
 if [[ \${R[1]} != 'No' ]]; then
 assertion=\$(echo \$PreAssertion | python -m json.tool 2> /dev/null | grep assertion | cut -f4 -d'"')
 PreDisneyCookie=\$(curl -s --max-time 10 "https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/cookies" | sed -n '1p')
 disneycookie=\$(echo \$PreDisneyCookie | sed "s/DISNEYASSERTION/\${assertion}/g")
-TokenContent=\$(curl $NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/token" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycookie")
+TokenContent=\$(curl \$NIC --user-agent "\${UA_Browser}" -s --max-time 10 -X POST "https://global.edge.bamgrid.com/token" -H "authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycookie")
 isBanned=\$(echo \$TokenContent | python -m json.tool 2> /dev/null | grep 'forbidden-location')
 is403=\$(echo \$TokenContent | grep '403 ERROR')
 [[ -n "\$isBanned\$is403" ]] && R[1]='No'
@@ -281,24 +345,24 @@ if [[ \${R[1]} != 'No' ]]; then
 fakecontent=\$(curl -s --max-time 10 "https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/cookies" | sed -n '8p')
 refreshToken=\$(echo \$TokenContent | python -m json.tool 2> /dev/null | grep 'refresh_token' | awk '{print \$2}' | cut -f2 -d'"')
 disneycontent=\$(echo \$fakecontent | sed "s/ILOVEDISNEY/\${refreshToken}/g")
-tmpresult=\$(curl $NIC --user-agent "\${UA_Browser}" -X POST -sSL --max-time 10 "https://disney.api.edge.bamgrid.com/graph/v1/device/graphql" -H "authorization: ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycontent" 2>&1)
-previewcheck=\$(curl $NIC -s -o /dev/null -L --max-time 10 -w '%{url_effective}\n' "https://disneyplus.com" | grep preview)
+tmpresult=\$(curl \$NIC --user-agent "\${UA_Browser}" -X POST -sSL --max-time 10 "https://disney.api.edge.bamgrid.com/graph/v1/device/graphql" -H "authorization: ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84" -d "\$disneycontent" 2>&1)
+previewcheck=\$(curl \$NIC -s -o /dev/null -L --max-time 10 -w '%{url_effective}\n' "https://disneyplus.com" | grep preview)
 isUnabailable=\$(echo \$previewcheck | grep 'unavailable')      
 region=\$(echo \$tmpresult | python -m json.tool 2> /dev/null | grep 'countryCode' | cut -f4 -d'"')
 inSupportedLocation=\$(echo \$tmpresult | python -m json.tool 2> /dev/null | grep 'inSupportedLocation' | awk '{print \$2}' | cut -f1 -d',')
 [[ "\$region" == "JP" || ( -n "\$region" && "\$inSupportedLocation" == "true" ) ]] && R[1]='Yes' || R[1]='No'
 fi
 CONTENT="Disney+: \${R[1]}."
-echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log
-[[ -n "\$CUSTOM" ]] && [[ \${R[1]} != \$(sed -n '2p' /etc/wireguard/status.log) ]] && curl -s -X POST "https://api.telegram.org/bot\$TOKEN/sendMessage" -d chat_id=\$USERID -d text="\$(eval echo "\$tg_output")" -d parse_mode="HTML" >/dev/null 2>&1
+log_message
+[[ -n "\$CUSTOM" ]] && [[ \${R[1]} != \$(sed -n '2p' /etc/wireguard/status.log) ]] && tg_message
 sed -i "2s/.*/\${R[1]}/" /etc/wireguard/status.log
 }
 
 ${MODE2[0]}
 ip
 CONTENT='Script runs.'
-echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log
-UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
+log_message
+UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x6*4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
 $UNLOCK_SELECT
 until [[ ! \${R[*]}  =~ 'No' ]]; do
 unset R
@@ -306,7 +370,6 @@ $RESTART
 $UNLOCK_SELECT
 done
 ${MODE2[1]}
-${MODE2[2]}
 fi
 EOF
 
@@ -344,7 +407,7 @@ while getopts ":CcEeUu46SsM:m:A:a:N:n:T:t:" OPTNAME; do
 	case "$OPTNAME" in
 		'C'|'c' ) L='C';;
 		'E'|'e' ) L='E';;
-		'U'|'u' ) [[ -z "$RUNNING" ]] && check_unlock_running; [[ "$RUNNING" != 1 ]] && red " ${T[${L}27]} " && exit 1 || CHOOSE1=1;;
+		'U'|'u' ) [[ -z "$f" ]] && check_unlock_running; [[ "$f" -ge "$UNLOCK_NUM" ]] && red " ${T[${L}27]} " && exit 1 || CHOOSE1=3;;
 		'4' ) TRACE4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace | grep warp | sed "s/warp=//g")
 		      [[ ! $TRACE4 =~ on|plus ]] && red " ${T[${L}24]} " && exit 1 || STATUS=(1 0 0);;
 		'6' ) TRACE6=$(curl -s6m8 https://www.cloudflare.com/cdn-cgi/trace | grep warp | sed "s/warp=//g")
@@ -369,11 +432,20 @@ done
 
 # 主程序运行 2/2
 check_unlock_running
+if [[ "$f" -lt "$UNLOCK_NUM" ]]; then
+MENU_SHOW="$(eval echo "${T[${L}19]}")"
+action1(){ 
+"${SWITCH_MODE1[f]}"
+export_unlock_file
+"${RUN_AFTER_SWITCH1[f]}"
+}
+action2(){
+"${SWITCH_MODE2[f]}"
+export_unlock_file
+"${RUN_AFTER_SWITCH2[f]}"
+}
+action3(){ uninstall; }
 action0(){ exit 0; }
-if [[ "$RUNNING" = 1 ]]; then
-MENU_SHOW="${T[${L}19]}"
-action1(){ uninstall; }
-action2(){ exit 0; }
 else
 MENU_SHOW="${T[${L}12]}"
 check_system_info
@@ -384,20 +456,17 @@ TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /e
 RESULT_OUTPUT="${T[${L}10]}"
 export_unlock_file
 	}
-action2(){ 
-MODE2[0]="while true; do"
-MODE2[1]="sleep 1h"
-MODE2[2]="done"
+action2(){
+MODE2=("while true; do" "sleep 1h; done")
 TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab"
 RESULT_OUTPUT="${T[${L}20]}"
 check_dependencies screen
 export_unlock_file
 screen -USdm u bash /etc/wireguard/warp_unlock.sh
 	}
-action3(){ 
+action3(){
 MODE2[0]="while true; do"
-MODE2[1]="sleep 1h"
-MODE2[2]="done"
+MODE2[1]="sleep 1h; done"
 TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root nohup bash /etc/wireguard/warp_unlock.sh &\" >> /etc/crontab"
 RESULT_OUTPUT="${T[${L}21]}"
 export_unlock_file
