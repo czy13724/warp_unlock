@@ -15,7 +15,7 @@ Born to make stream media unlock by WARP
 ## 更新信息和 TODO
 TODO: Support TG bot 人形支持
 
-2022.2.2 1.05 1. Support switch unlock modes freely;2. Remove ASN information; 1. 轻松地切换解锁模式; 2. 去掉日志里的线路供应商信息
+2022.2.2 1.05 1. Support switch unlock modes freely; 2. Remove ASN information. Add icon in TG push; 3. Limit the log to 1000 lines; 1. 轻松地切换解锁模式; 2. 去掉日志里的线路供应商信息，在 TG push 里加入icon; 3. 限制日志在1000行
 
 2022.1.31 1.04 1. Support push the logs to Telegram. 1. 日志结果输出到 Telegram.
 
