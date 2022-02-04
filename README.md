@@ -45,7 +45,7 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 
 <img src="https://user-images.githubusercontent.com/62703343/151651669-92d5263e-bfa2-4c2c-9928-683b678d9956.png" width="70%" />
 
-<img src="https://user-images.githubusercontent.com/62703343/151813389-f5ccefe5-0309-44d6-984f-e5c2a5981670.png" width="50%" />
+<img src="https://user-images.githubusercontent.com/62703343/152547440-5abecca0-7dbe-41d1-bdfd-b09b2e459b87.png" width="50%" />
 
 ## 运行脚本
 
