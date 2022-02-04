@@ -3,7 +3,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/sbin:/b
 export LANG=en_US.UTF-8
 
 # 当前脚本版本号和新增功能
-VERSION=1.05
+VERSION='1.05'
 
 # 最大支持流媒体，最大支持解锁方法
 SUPPORT_NUM='2'
@@ -36,8 +36,8 @@ T[E10]="\n Media unlock daemon installed successfully. The running log of the sc
 T[C10]="\n 媒体解锁守护进程已安装成功。定时任务运行日志将保存在 /root/result.log\n"
 T[E11]="\n The media unlock daemon is completely uninstalled.\n"
 T[C11]="\n 媒体解锁守护进程已彻底卸载\n"
-T[E12]="\n 1. Mode 1: Check it every 5 minutes.\n 2. Mode 2: Create a screen named [u] and run\n 3. Mode 3: Create a jobs with nohup to run in the background\n 0. Exit\n"
-T[C12]="\n 1. 模式1: 定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功\n 2. 模式2: 创建一个名为 [u] 的 Screen 在后台刷\n 3. 模式3: 用 nohup 创建一个 jobs 在后台刷\n 0. 退出\n"
+T[E12]="\n 1. Mode 1: Check it every 5 minutes.\n 2. Mode 2: Create a screen named [u] and run. The process runs in the background. When the unlock is all successful, it will be checked every 1 hour.\n 3. Mode 3: Create a jobs with nohup to run. The process runs in the background. When the unlock is all successful, it will be checked every 1 hour.\n 0. Exit\n"
+T[C12]="\n 1. 模式1: 定时5分钟检查一次,遇到不解锁时更换 WARP IP，直至刷成功\n 2. 模式2: 创建一个名为 [u] 的 Screen 会话。进程一直在后台，当刷成功后，每隔1小时检查一次\n 3. 模式3: 用 nohup 创建一个 jobs。进程一直在后台，当刷成功后，每隔1小时检查一次\n 0. 退出\n"
 T[E13]="\\\n The current region is \$REGION. Confirm press [y] . If you want another regions, please enter the two-digit region abbreviation. \(such as hk,sg. Default is \$REGION\):"
 T[C13]="\\\n 当前地区是:\$REGION，需要解锁当前地区请按 y , 如需其他地址请输入两位地区简写 \(如 hk,sg，默认:\$REGION\):"
 T[E14]="Wrong input."
@@ -50,8 +50,8 @@ T[E17]="Version"
 T[C17]="脚本版本"
 T[E18]="New features"
 T[C18]="功能新增"
-T[E19]="\\\n Stream media unlock daemon is running in \${UNLOCK_MODE_NOW[f]}.\\\n 1. Switch to \${UNLOCK_MODE_AFTER1[f]}\\\n 2. Switch to \${UNLOCK_MODE_AFTER2[f]}\\\n 3. Uninstall\\\n 0. Exit\\\n"
-T[C19]="\\\n 流媒体解锁守护正在以 \${UNLOCK_MODE_NOW[f]} 运行中\\\n 1. 切换至\${UNLOCK_MODE_AFTER1[f]}\\\n 2. 切换至\${UNLOCK_MODE_AFTER2[f]}\\\n 3. 卸载\\\n 0. 退出\\\n"
+T[E19]="\\\n Stream media unlock daemon is running in \${UNLOCK_MODE_NOW[f]}.\\\n 1. Change the streame media that needs to be unlocked\\\n 2. Switch to \${UNLOCK_MODE_AFTER1[f]}\\\n 3. Switch to \${UNLOCK_MODE_AFTER2[f]}\\\n 4. Uninstall\\\n 0. Exit\\\n"
+T[C19]="\\\n 流媒体解锁守护正在以 \${UNLOCK_MODE_NOW[f]} 运行中\\\n 1. 更换需要解锁的流媒体\\\n 2. 切换至\${UNLOCK_MODE_AFTER1[f]}\\\n 3. 切换至\${UNLOCK_MODE_AFTER2[f]}\\\n 4. 卸载\\\n 0. 退出\\\n"
 T[E20]="Media unlock daemon installed successfully. A session window u has been created, enter [screen -Udr u] and close [screen -SX u quit]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
 T[C20]="\n 媒体解锁守护进程已安装成功，已创建一个会话窗口 u ，进入 [screen -Udr u]，关闭 [screen -SX u quit]，VPS 重启仍生效。进入任务运行日志将保存在 /root/result.log\n"
 T[E21]="Media unlock daemon installed successfully. A jobs has been created, check [pgrep -laf warp_unlock] and close [kill -9 \$(pgrep -f warp_unlock)]. The VPS restart will still take effect. The running log of the scheduled task will be saved in /root/result.log\n"
@@ -97,7 +97,7 @@ yellow(){ echo -e "\033[33m\033[01m$1\033[0m"; }
 reading(){ read -rp "$(green "$1")" "$2"; }
 translate(){ [[ -n "$1" ]] && curl -sm8 "http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=$1" | cut -d \" -f18 2>/dev/null; }
 check_dependencies(){ for c in $@; do
-type -P $c >/dev/null 2>&1 || (yellow " $(eval echo "${T[${L}7]}") " && ${PACKAGE_INSTALL[b]} $c) || (yellow " $(eval echo "${T[${L}8]}") " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} $c)
+type -P $c >/dev/null 2>&1 || (yellow " $(eval echo "${T[${L}7]}") " && ${PACKAGE_INSTALL[b]} "$c") || (yellow " $(eval echo "${T[${L}8]}") " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} "$c")
 ! type -P $c >/dev/null 2>&1 && yellow " $(eval echo "${T[${L}9]}") " && exit 1; done;	 }
 
 # 脚本当天及累计运行次数统计
@@ -142,6 +142,7 @@ done
 
 # 检查解锁是否已运行，如果是则判断模式，以前给更换模式赋值
 check_unlock_running(){
+	switch_1_1(){	true; }	
 	switch_1_2(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root screen -USdm u bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab"
 			MODE2=("while true; do" "sleep 1h; done")
 			check_dependencies screen
@@ -150,6 +151,7 @@ check_unlock_running(){
 			MODE2=("while true; do" "sleep 1h; done")
 			}
 	switch_2_1(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab";	}
+	switch_2_2(){	MODE2=("while true; do" "sleep 1h; done"); }	
 	switch_2_3(){	TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"@reboot root nohup bash /etc/wireguard/warp_unlock.sh &\" >> /etc/crontab"
 			MODE2=("while true; do" "sleep 1h; done")
 			}	
@@ -158,38 +160,46 @@ check_unlock_running(){
 			MODE2=("while true; do" "sleep 1h; done")
 			check_dependencies screen
 			}
+	switch_3_3(){	MODE2=("while true; do" "sleep 1h; done"); }
+	run_1_1(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1; }
 	run_1_2(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
 			screen -USdm u bash /etc/wireguard/warp_unlock.sh
 			}
 	run_1_3(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
 			nohup bash /etc/wireguard/warp_unlock.sh >/dev/null 2>&1 &
 			}
-	run_2_1(){	screen -QX u quit >/dev/null 2>&1; }
-	run_2_3(){	screen -QX u quit >/dev/null 2>&1
+	run_2_1(){	screen -SX u quit >/dev/null 2>&1 && screen -wipe >/dev/null 2>&1; }
+	run_2_2(){	screen -SX u quit >/dev/null 2>&1 && screen -wipe >/dev/null 2>&1
+			screen -USdm u bash /etc/wireguard/warp_unlock.sh
+			}
+	run_2_3(){	screen -SX u quit >/dev/null 2>&1 && screen -wipe >/dev/null 2>&1
 			nohup bash /etc/wireguard/warp_unlock.sh >/dev/null 2>&1 &
 			}
 	run_3_1(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1; }
 	run_3_2(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
 			screen -USdm u bash /etc/wireguard/warp_unlock.sh
 			}
-
+	run_3_3(){	kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
+			nohup bash /etc/wireguard/warp_unlock.sh >/dev/null 2>&1 &
+			}
 	EXPECT=$(grep -s "EXPECT=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)	
 	TOKEN=$(grep -s "TOKEN=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
 	USERID=$(grep -s "USERID=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
 	CUSTOM=$(grep -s "CUSTOM=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
 	NIC=$(grep -s "NIC=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
 	RESTART=$(grep -s "RESTART=" /etc/wireguard/warp_unlock.sh | cut -d \" -f2)
-
 	check_crontab=("^\*.*warp_unlock" "screen.*warp_unlock" "nohup.*warp_unlock")
-	for ((f=0; f<$UNLOCK_NUM; f++)); do
+	for ((f=0; f<"$UNLOCK_NUM"; f++)); do
 	grep -qE "${check_crontab[f]}" /etc/crontab && break; done
 	UNLOCK_MODE_NOW=("${T[${L}40]}" "${T[${L}41]}" "${T[${L}42]}")
 	UNLOCK_MODE_AFTER1=("${T[${L}41]}" "${T[${L}40]}" "${T[${L}40]}")
 	UNLOCK_MODE_AFTER2=("${T[${L}42]}" "${T[${L}42]}" "${T[${L}41]}")
-	SWITCH_MODE1=( "switch_1_2" "switch_2_1" "switch_3_1" )
-	SWITCH_MODE2=( "switch_1_3" "switch_2_3" "switch_3_2" )
-	RUN_AFTER_SWITCH1=( "run_1_2" "run_2_1" "run_3_1" )
-	RUN_AFTER_SWITCH2=( "run_1_3" "run_2_3" "run_3_2" )
+	SWITCH_MODE1=( "switch_1_1" "switch_2_2" "switch_3_3" )
+	SWITCH_MODE2=( "switch_1_2" "switch_2_1" "switch_3_1" )
+	SWITCH_MODE3=( "switch_1_3" "switch_2_3" "switch_3_2" )
+	RUN_AFTER_SWITCH1=( "run_1_1" "run_2_2" "run_3_3" )
+	RUN_AFTER_SWITCH2=( "run_1_2" "run_2_1" "run_3_1" )
+	RUN_AFTER_SWITCH3=( "run_1_3" "run_2_3" "run_3_2" )
 }
 
 # 判断是否已经安装 WARP 网络接口或者 Socks5 代理,如已经安装组件尝试启动。再分情况作相应处理
@@ -288,6 +298,7 @@ TOKEN="$TOKEN"
 USERID="$USERID"
 CUSTOM="$CUSTOM"
 NIC="$NIC"
+RESTART="$RESTART"
 LOG_LIMIT="1000"
 UNLOCK_STATUS='Yes 🎉'
 NOT_UNLOCK_STATUS='No 😰'
@@ -295,7 +306,7 @@ timedatectl set-timezone Asia/Shanghai
 
 if [[ \$(pgrep -laf ^[/d]*bash.*warp_unlock | awk -F, '{a[\$2]++}END{for (i in a) print i" "a[i]}') -le 2 ]]; then
 
-log_output="\\\$(date +'%F %T').\\\\\tIP: \\\$WAN\\\\\tCountry: \\\$COUNTRY\\\\\t\\\$CONTENT"
+log_output="\\\$(date +'%F %T'). \\\\\tIP: \\\$WAN \\\\\tCountry: \\\$COUNTRY \\\\\t\\\$CONTENT"
 tg_output="Server:\\\$CUSTOM. \\\$(date +'%F %T'). IP: \\\$WAN  Country: \\\$COUNTRY. \\\$CONTENT"
 
 log_message(){ echo -e "\$(eval echo "\$log_output")" | tee -a /root/result.log; [[ \$(cat /root/result.log | wc -l) -gt \$LOG_LIMIT ]] && sed -i "1,10d" /root/result.log; }
@@ -370,7 +381,7 @@ UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x6*4) AppleWebKit/537.36 (KHTML
 $UNLOCK_SELECT
 until [[ ! \${R[*]}  =~ "\$NOT_UNLOCK_STATUS" ]]; do
 unset R
-$RESTART
+\$RESTART
 $UNLOCK_SELECT
 done
 ${MODE2[1]}
@@ -383,13 +394,11 @@ green " $(eval echo "${T[${L}22]}") "
 }
 
 uninstall(){
-screen -QX u quit >/dev/null 2>&1
-screen -wipe >/dev/null 2>&1
+screen -QX u quit >/dev/null 2>&1 && screen -wipe >/dev/null 2>&1
 type -P wg-quick >/dev/null 2>&1 && wg-quick down wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos delete >/dev/null 2>&1 && sleep 1
 sed -i '/warp_unlock.sh/d' /etc/crontab
 kill -9 $(pgrep -f warp_unlock.sh) >/dev/null 2>&1
-kill -9 $(jobs -l | grep warp_unlock | awk '{print $2}') >/dev/null 2>&1
 rm -f /etc/wireguard/warp_unlock.sh /root/result.log /etc/wireguard/status.log
 type -P wg-quick >/dev/null 2>&1 && wg-quick up wgcf >/dev/null 2>&1
 type -P warp-cli >/dev/null 2>&1 && warp-cli --accept-tos register >/dev/null 2>&1
@@ -411,7 +420,7 @@ while getopts ":CcEeUu46SsM:m:A:a:N:n:T:t:" OPTNAME; do
 	case "$OPTNAME" in
 		'C'|'c' ) L='C';;
 		'E'|'e' ) L='E';;
-		'U'|'u' ) [[ -z "$f" ]] && check_unlock_running; [[ "$f" -ge "$UNLOCK_NUM" ]] && red " ${T[${L}27]} " && exit 1 || CHOOSE1=3;;
+		'U'|'u' ) [[ -z "$f" ]] && check_unlock_running; [[ "$f" -ge "$UNLOCK_NUM" ]] && red " ${T[${L}27]} " && exit 1 || CHOOSE1=4;;
 		'4' ) TRACE4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace | grep warp | sed "s/warp=//g")
 		      [[ ! $TRACE4 =~ on|plus ]] && red " ${T[${L}24]} " && exit 1 || STATUS=(1 0 0);;
 		'6' ) TRACE6=$(curl -s6m8 https://www.cloudflare.com/cdn-cgi/trace | grep warp | sed "s/warp=//g")
@@ -435,10 +444,12 @@ while getopts ":CcEeUu46SsM:m:A:a:N:n:T:t:" OPTNAME; do
 done
 
 # 主程序运行 2/2
+check_system_info
 check_unlock_running
+check_dependencies curl
 if [[ "$f" -lt "$UNLOCK_NUM" ]]; then
 MENU_SHOW="$(eval echo "${T[${L}19]}")"
-action1(){ 
+action1(){
 "${SWITCH_MODE1[f]}"
 export_unlock_file
 "${RUN_AFTER_SWITCH1[f]}"
@@ -448,12 +459,15 @@ action2(){
 export_unlock_file
 "${RUN_AFTER_SWITCH2[f]}"
 }
-action3(){ uninstall; }
+action3(){
+"${SWITCH_MODE3[f]}"
+export_unlock_file
+"${RUN_AFTER_SWITCH3[f]}"
+}
+action4(){ uninstall; }
 action0(){ exit 0; }
 else
 MENU_SHOW="${T[${L}12]}"
-check_system_info
-check_dependencies curl
 check_warp
 action1(){
 TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /etc/wireguard/warp_unlock.sh\" >> /etc/crontab"
@@ -489,7 +503,7 @@ green " ${T[${L}17]}：$VERSION  ${T[${L}18]}：${T[${L}1]}\n "
 red "======================================================================================================================\n"
 [[ -z "$CHOOSE1" ]] && yellow " $MENU_SHOW " && reading " ${T[${L}3]} " CHOOSE1
 case "$CHOOSE1" in
-[0-3] ) action$CHOOSE1;;
+[0-4] ) action$CHOOSE1;;
 * ) red " ${T[${L}14]} "; sleep 1; menu;;
 esac
 }
