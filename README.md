@@ -19,8 +19,8 @@ TODO: Support TG bot 人形支持
 
 2022.1.31 1.04 1. Support push the logs to Telegram. 1. 日志结果输出到 Telegram.
 
-2022.1.30 1.03 1. Suppport pass parameter. You can run like this:```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M 2```; 2. Improve log details     
-1. 支持传参，你可以这样运行脚本:  ```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -A us -4 -N nd -M2```; 2. 把日志详细
+2022.1.30 1.03 1. Suppport pass parameter. You can run like this:```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -A us -4 -N nd -M 2```; 2. Improve log details     
+1. 支持传参，你可以这样运行脚本:  ```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -A us -4 -N nd -M2```; 2. 把日志详细
 
 2022.1.29 1.02 1. Support Disney+ 1. 支持 Disney+
 
@@ -74,12 +74,12 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed. Receive message to
 举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次，
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8&1254502669@unlock
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8&1254502669@unlock
 ```
 For example 2: Display and uninstall in English
 举例2: 用英文卸载
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/tools/main/t.sh) -E -U
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -U
 ```
 
 
