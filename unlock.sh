@@ -340,7 +340,7 @@ log_message
 [[ -n "\$CUSTOM" ]] && [[ \${R[0]} != \$(sed -n '1p' /etc/wireguard/status.log) ]] && tg_message
 sed -i "1s/.*/\${R[0]}/" /etc/wireguard/status.log
 }
-cb
+
 check1(){
 unset PreAssertion assertion disneycookie TokenContent isBanned is403 fakecontent refreshToken disneycontent tmpresult previewcheck isUnabailable region inSupportedLocation
 R[1]=""
