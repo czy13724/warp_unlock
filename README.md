@@ -13,7 +13,7 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO: 1. ~Iptables offloads Netflix; 2.Support TG bot 1. iptables 分流奈飞流量，最小化 wgcf 实现奈飞;~ 已经在隔壁 [WARP项目](https://github.com/fscarmen/warp) 完成了
+TODO: 1. ~Iptables offloads Netflix; 1. iptables 分流奈飞流量，最小化 wgcf 实现奈飞;~ 已经在隔壁 [WARP项目](https://github.com/fscarmen/warp) 完成了
 
 2022.2.2 1.05 1. Support switch unlock modes and stream media freely; 2. Remove ASN information. Add icon in TG push; 3. Limit the log to 1000 lines; 1. 轻松地切换解锁模式和流媒体平台; 2. 去掉日志里的线路供应商信息，在 TG push 里加入icon; 3. 限制日志在1000行
 
@@ -74,7 +74,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed. Receive message to
 举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次，
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8&1254502669@unlock
+bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8@1254502669@unlock
 ```
 For example 2: Display and uninstall in English
 举例2: 用英文卸载
