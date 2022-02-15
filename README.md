@@ -16,7 +16,8 @@ Born to make stream media unlock by WARP
 ## 更新信息和 TODO
 TODO: 1. 增加适配性 2. AC 自动编译上传镜像
 
-2022.2.15 Happy Lantern Festival. Bringing you a docker project based on alpine, content wgcf and unblocking Netflix scripts. Change unlock warp ip automatically.     元宵节快乐。为大家带来个 docker 项目，以 alpine 为基础系统，内容 wgcf 和解锁 Netflix 脚本，自动切换解锁 WARP IP，暂时只适合 IPv4 only VPS
+2022.2.15 Happy Lantern Festival. Bringing you a docker project based on alpine, content wgcf and unblocking Netflix scripts. Change unlock warp ip automatically. Thanks Oreo and Brother Big B    
+元宵节快乐。为大家带来个 docker 项目，以 alpine 为基础系统，内容 wgcf 和解锁 Netflix 脚本，自动切换解锁 WARP IP，暂时只适合 IPv4 only VPS。感谢 "猫佬"和"大B哥"
 
 2022.2.2 1.05 1. Support switch unlock modes and stream media freely; 2. Remove ASN information. Add icon in TG push; 3. Limit the log to 1000 lines; 1. 轻松地切换解锁模式和流媒体平台; 2. 去掉日志里的线路供应商信息，在 TG push 里加入icon; 3. 限制日志在1000行
 
@@ -89,6 +90,46 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 ```
 bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/docker.sh)
 ```
+
+先安装 Docker, 其 IP为 172.16.0.2 查看 ```docker exec -it wgcf ip route get 8.8.8.8 | grep -oP 'src \K\S+'```
+并安装 [mack-a 八合一脚本](https://github.com/mack-a/v2ray-agent) 为例。编辑  ```/etc/v2ray-agent/xray/conf/10_ipv4_outbounds.json```
+
+```
+{
+    "outbounds": [
+        {
+            "protocol": "freedom"
+        },
+        {
+            "tag": "media-unlock",
+            "protocol": "socks",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "172.16.0.2",
+                        "port": 40000,
+                        "users": []
+                    }
+                ]
+            }
+        }
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:netflix"
+                ],
+                "outboundTag": "media-unlock"
+            }
+        ]
+    }
+
+}
+```
+
 
 ## 鸣谢下列作者的文章和项目
 
