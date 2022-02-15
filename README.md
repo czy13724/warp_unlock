@@ -149,5 +149,6 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/doc
 服务提供（排名不分先后）:
 * CloudFlare Warp(+): https://1.1.1.1/
 * WGCF 项目原作者: https://github.com/ViRb3/wgcf/
+* P3terx wireguard-go 最新版本:  curl -fsSL git.io/wireguard-go.sh | bash
 * 获取公网 IP 及归属地查询: https://ip.gs/
 * 统计PV网:https://hits.seeyoufarm.com/
