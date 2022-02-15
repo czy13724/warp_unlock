@@ -87,6 +87,12 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 ```
 
 ## Docker 自动解锁方案
+
+* 支持 AMD64 和 ARM64 机器
+* Docker 以 alpine 为底包，内置 WGCF
+* 每 5 分钟检测一次状态
+* TG 通知输出
+
 ```
 bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/docker.sh)
 ```
