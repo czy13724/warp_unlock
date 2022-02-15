@@ -13,8 +13,9 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO: 1. ~Iptables offloads Netflix; 1. iptables 分流奈飞流量，最小化 wgcf 实现奈飞;~ 已经在隔壁 [WARP项目](https://github.com/fscarmen/warp) 完成了   
-2.Run unlock in docker. Support the http or socks5 proxy for the host machine 2.建一个 alpine 容器，自动完成解锁任务，并为宿主机提供http或者socks5服务，让xray/v2ray分流，已经测试成功，待处理些技术细节(alpine重启自动运行的方式和dockerfile的处理)
+TODO: 1. 增加适配性 2. AC 自动编译上传镜像
+
+2022.2.15 Happy Lantern Festival. Bringing you a docker project based on alpine, content wgcf and unblocking Netflix scripts. Change unlock warp ip automatically.     元宵节快乐。为大家带来个 docker 项目，以 alpine 为基础系统，内容 wgcf 和解锁 Netflix 脚本，自动切换解锁 WARP IP，暂时只适合 IPv4 only 的 AMD64 VPS
 
 2022.2.2 1.05 1. Support switch unlock modes and stream media freely; 2. Remove ASN information. Add icon in TG push; 3. Limit the log to 1000 lines; 1. 轻松地切换解锁模式和流媒体平台; 2. 去掉日志里的线路供应商信息，在 TG push 里加入icon; 3. 限制日志在1000行
 
