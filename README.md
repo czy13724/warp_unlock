@@ -14,7 +14,7 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO: 增加 PM2 和 systemd 两种方式，把解锁进程捧在手心
+TODO: 增加 pm2 和 systemd 两种方式，把解锁进程捧在手心
 
 2022.2.20 AC 交叉编译（cross-compilation）上传镜像，支持 AMD64 和 ARM64
 
