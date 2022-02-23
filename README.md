@@ -14,10 +14,7 @@ Born to make stream media unlock by WARP
 * * *
 
 ## 更新信息和 TODO
-TODO: 增加 pm2 和 systemd 两种方式，把解锁进程捧在手心
-
-![image](https://user-images.githubusercontent.com/62703343/155180337-89d98964-6284-4e70-8243-6d978ad94a11.png)
-
+2022.2.23 1.06 1. Add two modes to unlock: systemd service and pm2 daemon; 1. 增加两个解锁模式: systemd 服务和 pm2 进程守护
 
 2022.2.20 AC 交叉编译（cross-compilation）上传镜像，支持 AMD64 和 ARM64
 
