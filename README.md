@@ -152,6 +152,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/doc
 * ginuerzh 的 socks+http 代理: https://github.com/ginuerzh/gost/
 * 跨平台构建 Docker 镜像新姿势，x86、arm 一把梭: https://cloud.tencent.com/developer/article/1543689
 * Linux 利用systemd开机自启shell脚本: https://blog.csdn.net/qq_41539778/article/details/109361023
+* 让你的傻妞稳稳地和机器人GG拍拖！: https://mp.weixin.qq.com/s/77rGQUKg_n5Kz2MqlAUmzw
 * 如何高速安装pm2来守护您的进程？: https://www.kejiwanjia.com/jiaocheng/51930.html
 
 服务提供（排名不分先后）:
