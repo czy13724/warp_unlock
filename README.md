@@ -54,9 +54,9 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
   | 模式 | 依赖 | 常驻进程 | 最大检测间隔时长 | 推荐度 |
   | 1 crontab |❌| ❌| 5 min | ⭐⭐⭐⭐⭐ |
   | 2 systemd |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
-  | 3 nohunp |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
+  | 3 nohup |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
   | 4 screen | screen | ✅ | 60 min | ⭐⭐⭐ |
-  | 5 pm2| nodejs npm pm2 | ✅ | 60 min | ⭐⭐ |
+  | 5 pm2| node npm pm2 | ✅ | 60 min | ⭐⭐ |
   
 <img src="https://user-images.githubusercontent.com/62703343/155870006-ce235b59-fee7-4f45-a9b7-9af3ede8420f.png" width="70%" />
 
