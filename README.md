@@ -49,9 +49,8 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 * 日志输出
 * 多种方式解锁: 1.crontab 每 5 分钟检测一次状态; 2. screen 后台运行; 3. nohup & 后台运行; 4. systemd service 进程守护; 5. pm2 daemon 进程守护
 
-  | Mode | Dependencies | Resident Process | Maximum detection interval time | recommendation |
+  | Mode<br>模式 | Dependencies<br>依赖 | Resident Process<br>常驻进程 | Maximum detection interval time<br>最大检测间隔时长 | recommendation<br>推荐度 |
   | ------- | ------- | ------- | ------- | ------- |
-  | 模式 | 依赖 | 常驻进程 | 最大检测间隔时长 | 推荐度 |
   | 1 crontab |❌| ❌| 5 min | ⭐⭐⭐⭐⭐ |
   | 2 systemd |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
   | 3 nohup |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
