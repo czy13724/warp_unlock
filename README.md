@@ -45,16 +45,18 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 
 ## 脚本特点
 * 支持多种主流串流影视检测，可以单选或多选
-* 多种方式解锁: 1.crontab 每 5 分钟检测一次状态; 2. screen 后台运行; 3. nohup & 后台运行; 4. systemd service 进程守护; 5. pm2 daemon 进程守护
 * 支持 WARP Socks5 Proxy 检测和更换 IP 
 * 日志输出
-  | Mode模式 | Dependencies 依赖 | Resident Process 常驻进程 | Maximum detection interval time 最大检测间隔时长 | 推荐度 |
+* 多种方式解锁: 1.crontab 每 5 分钟检测一次状态; 2. screen 后台运行; 3. nohup & 后台运行; 4. systemd service 进程守护; 5. pm2 daemon 进程守护
+
+  | Mode | Dependencies | Resident Process | Maximum detection interval time | recommendation |
   | ------- | ------- | ------- | ------- | ------- |
-  | 1 crontab || No 否| 5 min | ⭐⭐⭐⭐⭐ |
-  | 2 systemd || Yes 是 | 60 min | ⭐⭐⭐⭐ |
-  | 3 nohunp || Yes 是 | 60 min | ⭐⭐⭐⭐ |
-  | 4 screen | screen | Yes 是 | 60 min | ⭐⭐⭐ |
-  | 5 pm2| nodejs npm pm2 | Yes 是 | 60 min | ⭐⭐ |
+  | 模式 | 依赖 | 常驻进程 | 最大检测间隔时长 | 推荐度 |
+  | 1 crontab |❌| ❌| 5 min | ⭐⭐⭐⭐⭐ |
+  | 2 systemd |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
+  | 3 nohunp |❌| ✅ | 60 min | ⭐⭐⭐⭐ |
+  | 4 screen | screen | ✅ | 60 min | ⭐⭐⭐ |
+  | 5 pm2| nodejs npm pm2 | ✅ | 60 min | ⭐⭐ |
   
 <img src="https://user-images.githubusercontent.com/62703343/155870006-ce235b59-fee7-4f45-a9b7-9af3ede8420f.png" width="70%" />
 
