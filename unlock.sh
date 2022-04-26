@@ -1,5 +1,5 @@
-#!/bin/bash
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/sbin:/bin
+#!/usr/bin/env bash
+
 export LANG=en_US.UTF-8
 
 # 当前脚本版本号和新增功能
@@ -283,7 +283,7 @@ sh -c "$TASK"
 # 感谢以下两位作者: lmc999 [https://github.com/lmc999/RegionRestrictionCheck] 和 luoxue-bot [https://github.com/luoxue-bot/warp_auto_change_ip]
 # 根据 lmc999 脚本检测 Netflix Title，如获取不到，使用兜底默认值
 cat <<EOF >/etc/wireguard/warp_unlock.sh
-#!/bin/bash
+#!/usr/bin/env bash
 MODE="$CHOOSE1"
 EXPECT="$EXPECT"
 TOKEN="$TOKEN"
