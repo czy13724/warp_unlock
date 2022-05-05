@@ -82,7 +82,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
   | -S || Brush Socks5  刷 Socks5 |
   | -M | 1 | Mode 1: detect every 5   minute 每5分钟检测 |
   | -M | 2 | Mode 2: run by screen   以 screen 方式运行 |
-  | -M | 3 | Mode 2: run by nohup &   以 hup & 方式运行 |
+  | -M | 3 | Mode 3: run by nohup &   以 hup & 方式运行 |
   | -A | ** | region abbreviation,such as us. 地区简码,如 us |
   | -N | n | Unlock Neflix 解锁奈飞 |
   | -N | d | Unlock Disney+ 解锁迪士尼 |
