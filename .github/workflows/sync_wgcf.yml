@@ -15,7 +15,7 @@ jobs:
       FILE: docker.sh
  
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Update wgcf to latest version
         run: |
           REPO="https://raw.githubusercontent.com/${{ env.USERNAME }}/warp_unlock/main/${{ env.FILE }}"
