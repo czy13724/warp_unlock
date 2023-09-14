@@ -17,22 +17,22 @@ E[0]="Language:\n  1.English (default) \n  2.简体中文"
 C[0]="${E[0]}"
 E[1]="Wireguard-go-reserved supports changing IP."
 C[1]="Wireguard-go-reserved 支持更换 IP"
-E[2]="The script must be run as root, you can enter sudo -i and then download and run again. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
-C[2]="必须以root方式运行脚本，可以输入 sudo -i 后重新下载运行，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
+E[2]="The script must be run as root, you can enter sudo -i and then download and run again. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
+C[2]="必须以root方式运行脚本，可以输入 sudo -i 后重新下载运行，问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
 E[3]="Choose:"
 C[3]="请选择:"
 E[4]="Neither the WARP network interface nor Socks5 are installed, please select the installation script:\n 1. fscarmen's warp (Default)\n 2. fscarmen's warp-go\n 3. P3terx\n 4. Misaka\n 5. ygkkk\n 0. Exit"
 C[4]="WARP 网络接口和 Socks5 都没有安装，请选择安装脚本:\n 1. fscarmen's warp (默认)\n 2. fscarmen's warp-go\n 3. P3terx\n 4. Misaka\n 5. ygkkk\n 0. 退出"
-E[5]="The script supports Debian, Ubuntu, CentOS or Alpine systems only. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
-C[5]="本脚本只支持 Debian、Ubuntu、CentOS 或 Alpine 系统,问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
+E[5]="The script supports Debian, Ubuntu, CentOS or Alpine systems only. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
+C[5]="本脚本只支持 Debian、Ubuntu、CentOS 或 Alpine 系统,问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
 E[6]="Please choose to brush WARP IP:\n 1. WARP Socks5 Proxy\n 2. WARP IPv6 Interface"
 C[6]="请选择刷 WARP IP 方式:\n 1. WARP Socks5 代理\n 2. WARP IPv6 网络接口"
 E[7]="Installing \$c..."
 C[7]="安装 \$c 中……"
 E[8]="It is necessary to upgrade the latest package library before install \$c.It will take a little time,please be patiently..."
 C[8]="先升级软件库才能继续安装 \$c，时间较长，请耐心等待……"
-E[9]="Failed to install \$c. The script is aborted. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
-C[9]="安装 \$c 失败，脚本中止，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
+E[9]="Failed to install \$c. The script is aborted. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
+C[9]="安装 \$c 失败，脚本中止，问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
 E[10]="Media unlock daemon installed successfully. The running log of the scheduled task will be saved in /root/result.log"
 C[10]="媒体解锁守护进程已安装成功。定时任务运行日志将保存在 /root/result.log"
 E[11]="The media unlock daemon is completely uninstalled."
@@ -45,8 +45,8 @@ E[14]="Wrong input."
 C[14]="输入错误"
 E[15]="Select the stream media you wanna unlock (Multiple selections are possible, such as 12. The default is select all)\n 1. Netflix\n 2. Disney+"
 C[15]="选择你期望解锁的流媒体 (可多选，如 12，默认为全选)\n 1. Netflix\n 2. Disney+"
-E[16]="The script Born to make stream media unlock by WARP. Detail:[https://github.com/fscarmen/warp_unlock]\n Features:\n\t • Support a variety of main stream streaming media detection.\n\t • Multiple ways to unlock.\n\t • Support WARP Socks5 Proxy to detect and replace IP.\n\t • log output"
-C[16]="本项目专为 WARP 解锁流媒体而生。详细说明：[https://github.com/fscarmen/warp_unlock]\n 脚本特点:\n\t • 支持多种主流串流影视检测\n\t • 多种方式解锁\n\t • 支持 WARP Socks5 Proxy 检测和更换 IP\n\t • 日志输出"
+E[16]="The script Born to make stream media unlock by WARP. Detail:[https://github.com/fscarmen/unlock_warp]\n Features:\n\t • Support a variety of main stream streaming media detection.\n\t • Multiple ways to unlock.\n\t • Support WARP Socks5 Proxy to detect and replace IP.\n\t • log output"
+C[16]="本项目专为 WARP 解锁流媒体而生。详细说明：[https://github.com/fscarmen/unlock_warp]\n 脚本特点:\n\t • 支持多种主流串流影视检测\n\t • 多种方式解锁\n\t • 支持 WARP Socks5 Proxy 检测和更换 IP\n\t • 日志输出"
 E[17]="Version"
 C[17]="脚本版本"
 E[18]="New features"
@@ -61,8 +61,8 @@ E[22]="The script runs on today: \$TODAY. Total:\$TOTAL"
 C[22]="脚本当天运行次数:\$TODAY，累计运行次数：\$TOTAL"
 E[23]="Please choose to brush WARP IP:\n 1. WARP - IPv4\n 2. WARP - IPv6"
 C[23]="请选择刷 WARP IP 方式:\n 1. WARP - IPv4\n 2. WARP - IPv6"
-E[24]="No option. The script is aborted. Feedback: [https://github.com/fscarmen/warp_unlock/issues]"
-C[24]="没有该选项，脚本退出，问题反馈:[https://github.com/fscarmen/warp_unlock/issues]"
+E[24]="No option. The script is aborted. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
+C[24]="没有该选项，脚本退出，问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
 E[25]="No unlock method specified."
 C[25]="没有指定的解锁模式"
 E[26]="Expected region abbreviation should be two digits (eg hk,sg)."
@@ -135,7 +135,7 @@ text_eval() { eval echo "\$(eval echo "\${${L}[$*]}")"; }
 # translate() { [ -n "$1" ] && curl -ksm8 "http://fanyi.youdao.com/translate?&doctype=json&type=EN2ZH_CN&i=${1//[[:space:]]/}" | cut -d \" -f18 2>/dev/null; }
 translate() {
   [ -n "$@" ] && EN="$@"
-  ZH=$(curl -km8 -sSL "https://translate.google.com/translate_a/t?client=any_client_id_works&sl=en&tl=zh&q=${EN//[[:space:]]/}")
+  ZH=$(curl -km8 -sSL "https://translate.google.com/translate_a/t?client=any_client_id_works&sl=en&tl=zh&q=${EN//[[:space:]]/%20}")
   [[ "$ZH" =~ ^\[\".+\"\]$ ]] && cut -d \" -f2 <<< "$ZH"
 }
 
@@ -297,8 +297,8 @@ check_warp() {
     fi
   fi
 
-  warp() { wget -N --no-check-certificate https://raw.githubusercontent.com/fscarmen/warp/main/menu.sh && bash menu.sh; exit; }
-  warp-go() { wget -N --no-check-certificate https://raw.githubusercontent.com/fscarmen/warp/main/warp-go.sh && bash warp-go.sh; exit; }
+  warp() { wget -N --no-check-certificate https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh; exit; }
+  warp-go() { wget -N --no-check-certificate https://gitlab.com/fscarmen/warp/-/raw/main/warp-go.sh && bash warp-go.sh; exit; }
   p3terx() { bash <(curl -fsSL git.io/warp.sh) menu; exit; }
   misaka() { wget -N --no-check-certificate https://gitlab.com/Misaka-blog/warp-script/-/raw/main/warp.sh && bash warp.sh; exit; }
   ygkkk() { bash <(wget -qO- https://gitlab.com/rwkgyg/CFwarp/raw/main/CFwarp.sh 2> /dev/null); exit; }
@@ -434,7 +434,7 @@ if [[ \$(pgrep -laf ^[/d]*bash.*warp_unlock | awk -F, '{a[\$2]++}END{for (i in a
       if ! grep -sq 'PrivateKey' \$REGISTE_FILE_PATH; then
         unset CF_API_REGISTE API_DEVICE_ID API_ACCESS_TOKEN API_PRIVATEKEY API_TYPE
         rm -f \$REGISTE_FILE_PATH
-        CF_API_REGISTE="\$(bash <(curl -m8 -sSL https://raw.githubusercontent.com/fscarmen/warp/main/api.sh | sed 's# > \$registe_path##g') --registe)"
+        CF_API_REGISTE="\$(bash <(curl -m8 -sSL https://gitlab.com/fscarmen/warp/-/raw/main/api.sh | sed 's# > \$registe_path##g') --registe)"
         if grep -q 'private_key' <<< "\$CF_API_REGISTE"; then
           local API_DEVICE_ID=\$(expr "\$CF_API_REGISTE " | grep -m1 'id' | cut -d\" -f4)
           local API_ACCESS_TOKEN=\$(expr "\$CF_API_REGISTE " | grep '"token' | cut -d\" -f4)
@@ -474,8 +474,8 @@ ABC
 
           # 如是 plus 账户，升级账户
           if [[ -n "\$LICENSE" && -n "\$NAME" ]]; then
-            bash <(curl -m8 -sSL https://raw.githubusercontent.com/fscarmen/warp/main/api.sh) --file \$REGISTE_FILE_PATH --license \$LICENSE >/dev/null 2>&1
-            bash <(curl -m8 -sSL https://raw.githubusercontent.com/fscarmen/warp/main/api.sh) --file \$REGISTE_FILE_PATH --name \$NAME >/dev/null 2>&1
+            bash <(curl -m8 -sSL https://gitlab.com/fscarmen/warp/-/raw/main/api.sh) --file \$REGISTE_FILE_PATH --license \$LICENSE >/dev/null 2>&1
+            bash <(curl -m8 -sSL https://gitlab.com/fscarmen/warp/-/raw/main/api.sh) --file \$REGISTE_FILE_PATH --name \$NAME >/dev/null 2>&1
           fi
         fi
       fi
@@ -496,7 +496,7 @@ ABC
         sed -i '1,6!d' /opt/warp-go/warp.conf.tmp2
         tail -n +7 /opt/warp-go/warp.conf.tmp1 >> /opt/warp-go/warp.conf.tmp2
         mv /opt/warp-go/warp.conf.tmp2 /opt/warp-go/warp.conf
-        bash <(curl -m8 -sSL https://raw.githubusercontent.com/fscarmen/warp/main/api.sh) --file /opt/warp-go/warp.conf.tmp1 --cancle >/dev/null 2>&1
+        bash <(curl -m8 -sSL https://gitlab.com/fscarmen/warp/-/raw/main/api.sh) --file /opt/warp-go/warp.conf.tmp1 --cancle >/dev/null 2>&1
         rm -f /opt/warp-go/warp.conf.tmp*
         systemctl restart warp-go
         sleep 10
@@ -513,7 +513,7 @@ ABC
         local ADDRESS6="\$(grep '"v6.*"$' /etc/wireguard/warp-account.conf | cut -d\" -f4)"
         local RESERVED="\$(grep 'client_id' /etc/wireguard/warp-account.conf | cut -d\" -f4 | base64 -d | xxd -p | fold -w2 | while read HEX; do printf '%d ' "0x\${HEX}"; done | awk '{print "["\$1", "\$2", "\$3"]"}')"
         sed -i "s#\(PrivateKey[ ]\+=[ ]\+\).*#\1\$PRIVATEKEY#g; s#\(Address[ ]\+=[ ]\+\).*\(/128\)#\1\$ADDRESS6\2#g; s#\(.*Reserved[ ]\+=[ ]\+\).*#\1\$RESERVED#g" /etc/wireguard/warp.conf
-        bash <(curl -m8 -sSL https://raw.githubusercontent.com/fscarmen/warp/main/api.sh) --file /etc/wireguard/warp-account.conf.tmp --cancle >/dev/null 2>&1
+        bash <(curl -m8 -sSL https://gitlab.com/fscarmen/warp/-/raw/main/api.sh) --file /etc/wireguard/warp-account.conf.tmp --cancle >/dev/null 2>&1
         rm -f /etc/wireguard/warp-account.conf.tmp
         wg-quick up warp >/dev/null 2>&1
         sleep 10

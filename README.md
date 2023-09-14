@@ -43,8 +43,8 @@ Born to make stream media unlock by WARP
 >
 >2022.1.31 1.04 1. Support push the logs to Telegram. 1. 日志结果输出到 Telegram.
 >
->2022.1.30 1.03 1. Suppport pass parameter. You can run like this:```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -A us -4 -N nd -M 2```; 2. Improve log details     
->1. 支持传参，你可以这样运行脚本:  ```bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -A us -4 -N nd -M 2```; 2. 日志显示更详细
+>2022.1.30 1.03 1. Suppport pass parameter. You can run like this:```bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/unlock.sh) -E -A us -4 -N nd -M 2```; 2. Improve log details     
+>1. 支持传参，你可以这样运行脚本:  ```bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/unlock.sh) -E -A us -4 -N nd -M 2```; 2. 日志显示更详细
 </details>
 
 2022.1.29 1.02 1. Support Disney+ 1. 支持 Disney+
@@ -84,7 +84,7 @@ beta 2022.1.26 Media unlock daemon. Check it every 5 minutes. If unlocked, the s
 
 ### 1.菜单方式 (menu)
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh)
+bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/unlock.sh)
 ```
 ### 2.带参数 (pass parameter)
   | paremeter 参数 | value 值 | describe 具体动作说明 |
@@ -106,12 +106,12 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 For example 1: Language is Chinese. Unlock area is Singapore. Brush WARP IPv4. Unlock Netflix and detect every 5 minute when successed. Receive message to
 举例1: 用中文，解锁新加坡奈飞，当成功的时候每5分钟检测一次，
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8@1254502669@unlock
+bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/unlock.sh) -C -A sg -4 -N n -M 1 -T 1730133Uu5:AAF33T7sWPB8cGu31-QoaUkjdkjzeRo1_m8@1254502669@unlock
 ```
 For example 2: Display and uninstall in English
 举例2: 用英文卸载
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unlock.sh) -E -U
+bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/unlock.sh) -E -U
 ```
 
 ### TG bot 创建方法
@@ -125,7 +125,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/unl
 * 容器内 gost 为宿主机提供 socks5 或者 http 服务，端口为 40000，可以在xray/v2ray 配置文件里作相应设置
 
 ```
-bash <(curl -sSL https://raw.githubusercontent.com/fscarmen/warp_unlock/main/docker.sh)
+bash <(curl -sSL https://gitlab.com/fscarmen/warp_unlock/-/raw/main/docker.sh)
 ```
 
 先安装 Docker, 其 IP 为 172.17.0.2 ，获取```docker exec -it wgcf ip route get  172.17.0.1 | grep -oP 'src \K\S+'```
