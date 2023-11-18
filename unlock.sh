@@ -23,8 +23,8 @@ E[3]="Choose:"
 C[3]="请选择:"
 E[4]="Neither the WARP network interface nor Socks5 are installed, please select the installation script:\n 1. fscarmen's warp (Default)\n 2. fscarmen's warp-go\n 3. P3terx\n 4. Misaka\n 5. ygkkk\n 0. Exit"
 C[4]="WARP 网络接口和 Socks5 都没有安装，请选择安装脚本:\n 1. fscarmen's warp (默认)\n 2. fscarmen's warp-go\n 3. P3terx\n 4. Misaka\n 5. ygkkk\n 0. 退出"
-E[5]="The script supports Debian, Ubuntu, CentOS or Alpine systems only. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
-C[5]="本脚本只支持 Debian、Ubuntu、CentOS 或 Alpine 系统,问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
+E[5]="The script supports Debian, Ubuntu or CentOS systems only. Feedback: [https://github.com/fscarmen/unlock_warp/issues]"
+C[5]="本脚本只支持 Debian、Ubuntu 或 CentOS 系统,问题反馈:[https://github.com/fscarmen/unlock_warp/issues]"
 E[6]="Please choose to brush WARP IP:\n 1. WARP Socks5 Proxy\n 2. WARP IPv6 Interface"
 C[6]="请选择刷 WARP IP 方式:\n 1. WARP Socks5 代理\n 2. WARP IPv6 网络接口"
 E[7]="Installing \$c..."
@@ -129,10 +129,9 @@ info() { echo -e "\033[32m\033[01m$*\033[0m"; }
 hint() { echo -e "\033[33m\033[01m$*\033[0m"; }
 reading() { read -rp "$(info "$1")" "$2"; }
 text() { eval echo "\${${L}[$*]}"; }
-text_eval() { eval echo "\$(eval echo "\${${L}[$*]}")"; }
+text() { grep -q '\$' <<< "${E[$*]}" && eval echo "\$(eval echo "\${${L}[$*]}")" || eval echo "\${${L}[$*]}"; }
 
-# 自定义友道或谷歌翻译函数
-# translate() { [ -n "$1" ] && curl -ksm8 "http://fanyi.youdao.com/translate?&doctype=json&type=EN2ZH_CN&i=${1//[[:space:]]/}" | cut -d \" -f18 2>/dev/null; }
+# 自定义谷歌翻译函数
 translate() {
   [ -n "$@" ] && EN="$@"
   ZH=$(curl -km8 -sSL "https://translate.google.com/translate_a/t?client=any_client_id_works&sl=en&tl=zh&q=${EN//[[:space:]]/%20}")
@@ -141,8 +140,8 @@ translate() {
 
 check_dependencies() {
   for c in $*; do
-    type -p $c >/dev/null 2>&1 || (hint " $(text_eval 7) " && ${PACKAGE_INSTALL[b]} $c 2>/dev/null) || (hint " $(text_eval 8) " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} $c 2>/dev/null)
-    ! type -p $c >/dev/null 2>&1 && error " $(text_eval 9) " && exit 1
+    type -p $c >/dev/null 2>&1 || (hint " $(text 7) " && ${PACKAGE_INSTALL[b]} $c 2>/dev/null) || (hint " $(text 8) " && ${PACKAGE_UPDATE[b]} && ${PACKAGE_INSTALL[b]} $c 2>/dev/null)
+    ! type -p $c >/dev/null 2>&1 && error " $(text 9) " && exit 1
   done
 }
 
@@ -353,9 +352,9 @@ input_streammedia_unlock() {
 input_region() {
   if [ -z "$EXPECT" ]; then
   REGION=$(curl -ksm8 -A Mozilla $IP_API | grep -E "country_iso|country_code" | sed 's/.*country_[a-z]\+\":[ ]*\"\([^"]*\).*/\1/g' 2>/dev/null)
-  reading "\n $(text_eval 13) " EXPECT
+  reading "\n $(text 13) " EXPECT
   until [[ -z "$EXPECT" || "$EXPECT" = [Yy] || "$EXPECT" =~ ^[A-Za-z]{2}$ ]]; do
-    reading "\n $(text_eval 13) " EXPECT
+    reading "\n $(text 13) " EXPECT
   done
   [[ -z "$EXPECT" || "$EXPECT" = [Yy] ]] && EXPECT="$REGION"
   fi
@@ -363,9 +362,9 @@ input_region() {
 
 # Telegram Bot 日志推送
 input_tg() {
-  [ -z "$CUSTOM" ] && reading "\n $(text_eval 29) " TOKEN
-  [[ -n "$TOKEN" && -z "$USERID" ]] && reading "\n $(text_eval 30) " USERID
-  [[ -n "$USERID" && -z "$CUSTOM" ]] && reading "\n $(text_eval 31) " CUSTOM
+  [ -z "$CUSTOM" ] && reading "\n $(text 29) " TOKEN
+  [[ -n "$TOKEN" && -z "$USERID" ]] && reading "\n $(text 30) " USERID
+  [[ -n "$USERID" && -z "$CUSTOM" ]] && reading "\n $(text 31) " CUSTOM
 }
 
 # 根据用户选择在线生成解锁程序，放在 /etc/wireguard/unlock.sh
@@ -626,7 +625,7 @@ EOF
 # 输出执行结果
 result_output() {
   info " $RESULT_OUTPUT "
-  info " $(text_eval 22) \n"
+  info " $(text 22) \n"
 }
 
 # 卸载
@@ -700,12 +699,11 @@ check_unlock_running
 check_dependencies curl
 check_warp
 MODE2=("while true; do" "sleep 1h; done")
-[ -n "$UNLOCK_MODE_NOW" ] && MENU_SHOW="$(text_eval 19)$(text 12)" || MENU_SHOW="$(text 12)"
+[ -n "$UNLOCK_MODE_NOW" ] && MENU_SHOW="$(text 19)$(text 12)" || MENU_SHOW="$(text 12)"
 
 action1() {
   unset MODE2
   [ -n "$UNLOCK_MODE_NOW" ] && uninstall
-  check_dependencies cron
   TASK="sed -i '/warp_unlock.sh/d' /etc/crontab && echo \"*/5 * * * * root bash /usr/bin/warp_unlock.sh\" >> /etc/crontab"
   RESULT_OUTPUT="\n $(text 10) \n"
   export_unlock_file
